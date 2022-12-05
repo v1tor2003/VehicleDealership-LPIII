@@ -1,4 +1,4 @@
-package base.types;
+package models.types;
 
 public enum TireType {
   SMAL_TIRE(350),

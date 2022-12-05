@@ -1,4 +1,4 @@
-package base.types;
+package models.types;
 
 public enum Optionals {
   MULTIMEDIA(1000),
