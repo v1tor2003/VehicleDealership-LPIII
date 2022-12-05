@@ -17,7 +17,6 @@ public class DealerShip {
   private static SinglyLinkedList<Motorcycle> bikes;
   private static SinglyLinkedList<Van> vans;
 
-  
   public static void main(String [] args) {
     cars = new SinglyLinkedList<>();
     trucks = new SinglyLinkedList<>();    
@@ -41,7 +40,7 @@ public class DealerShip {
         showVehiclesCount();
         break;
       case 3:
-        scheduleMaintence();
+        //scheduleMaintence();
       break;
     }
   }

@@ -1,8 +1,8 @@
 package ds.stack;
 
-import ds.list.List;
+import ds.singlyll.SinglyLinkedList;
 
-public class Stack<T> extends List<T> {
+public class Stack<T> extends SinglyLinkedList<T> {
   
   public Stack(){
     super();

@@ -1,8 +1,8 @@
 package ds.queue;
 
-import ds.list.List;
+import ds.singlyll.SinglyLinkedList;
 
-public class Queue<T> extends List<T>{
+public class Queue<T> extends SinglyLinkedList<T>{
   
   public Queue(){
     super();
