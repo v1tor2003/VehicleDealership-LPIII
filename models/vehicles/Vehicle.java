@@ -1,86 +1,73 @@
 package models.vehicles;
 
-import models.types.BateryType;
-import models.types.TireType;
+import models.types.ChassisType;
+import services.Services;
 
 public class Vehicle {
-  private TireType tire;
-  private BateryType batery;
-  
-  private String brandName;
-  private String modelName;
+  private String brand;
+  private String model;
   private String color;
-  private Integer fabYear;
-  private float price; 
+  private Integer fabricationYear;
+  private Float price;
+  private ChassisType vehicleType;
 
-  private static int count;
-  
-  // color as rand integer, for rand = 0, color = colors[i] {red, blue, green, white}
-  public Vehicle(TireType tire, BateryType batery, String brand, String model, String color, float price, int fabYear){
-    
-    if(validateVehicle(brand, model)){
-      this.brandName = brand;
-      this.modelName = model;
+  public Vehicle(ChassisType vehicle, String brand, String model, String color, float price, int fab){
+    if(validateVehicle(brand, model, color)){
+      this.brand = brand;
+      this.model = model;
+      this.color = color;
     }
-    
+
+    if(validateFabYear(fab))
+      this.fabricationYear = fab;
+    else
+      this.fabricationYear = 1900;
+
     if(validatePrice(price))
       this.price = price;
     else
-      this.price = 0;
-    
-    if(validateFabYear(fabYear))
-      this.fabYear = fabYear;
-    else
-      this.fabYear = 0;
+      this.price = 0.0f;
 
 
-    this.tire = tire;
-    this.batery = batery;
+    vehicleType = vehicle;
   }
 
-  public static int getThisVehicleCount(Vehicle vehicle){
-    return Vehicle.count;
-  }
+  private boolean validateVehicle(String brand, String model, String color){
 
-  private boolean validateFabYear(int year){
-    return year >= 1900;
-  }
-
-  private boolean validateNameString(String input){
-    return input != null && input.length() >= 3;
-  }
-
-  private boolean validateVehicle(String brand, String model){
-    return validateNameString(brand) && validateNameString(model);
+    return Services.validateRandName(brand) && Services.validateRandName(model) && Services.validateColor(color);
   }
 
   private boolean validatePrice(float price){
     return price > 0;
   }
 
-  protected float getVehiclePrice(){
-    return this.price;
-  }
-
-  protected TireType getVehicleTire(){
-    return this.tire;
-  }
-
-  protected BateryType getVehicleBatery(){
-    return this.batery;
-  }
-
-  protected static String getVehicleColor(String [] colors){
-    final int minValue = 0;
-    final int maxValue = colors.length;
-    int randColor =  (int)Math.floor(Math.random() * (maxValue - minValue + 1) + minValue);
+  private boolean validateFabYear(int fabrication){
     
-    return colors[randColor];
+    return fabrication >= 1900;
+  }
+
+  private boolean isCurrentFabYearValid(){
+    
+    return !(this.fabricationYear == 1900);
+  }
+
+  public void setFabYear(int fabrication){
+    if(!isCurrentFabYearValid())
+      changeVehicleFabYear(fabrication);
+    else
+      System.out.println("Cannot change a valid fabYear.");
+  
+  } 
+
+  private void changeVehicleFabYear(int fabrication){
+    if(validateFabYear(fabrication))
+      this.fabricationYear = fabrication;
+    else
+      System.out.println("You cannot change the year to a invalid one.");
   }
 
   public String toString(){
-    return String.format("Brand: %s\nModel: %s\nFab Year: %s\nColor: %s\nPrice: R$ %.2f", 
-                        this.brandName, this.modelName, this.fabYear, this.color, this.price);
+    return String.format("Type: %s\nBrand: %s\nModel: %s\nColor: %s\nFabrication Year: %d\nPrice: $%.2f\n", 
+                          this.vehicleType, this.brand, this.model, this.color, this.fabricationYear, this.price);
   }
-
 }

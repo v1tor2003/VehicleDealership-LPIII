@@ -2,61 +2,32 @@ package main;
 
 import java.util.Scanner;
 
-import ds.singlyll.SinglyLinkedList;
-import models.vehicles.Bus;
-import models.vehicles.Car;
-import models.vehicles.Truck;
-import models.vehicles.Van;
-import models.vehicles.Motorcycle;
+import models.people.Customer;
+import models.people.Person;
+import models.vehicles.*;
 
 public class DealerShip {
   private static Scanner input = new Scanner(System.in);
-  private static SinglyLinkedList<Car> cars;
-  private static SinglyLinkedList<Truck> trucks;
-  private static SinglyLinkedList<Bus> buses;
-  private static SinglyLinkedList<Motorcycle> bikes;
-  private static SinglyLinkedList<Van> vans;
 
   public static void main(String [] args) {
-    cars = new SinglyLinkedList<>();
-    trucks = new SinglyLinkedList<>();    
-    buses = new SinglyLinkedList<>();    
-    bikes = new SinglyLinkedList<>();    
-    vans = new SinglyLinkedList<>();
-  }
+    Vehicle vehicles [] = new Vehicle[4];
+    vehicles[0] = new Car("Merc", "c63", "grey", 200000,2022);
+    vehicles[1] = new Truck("Merc", "11-13", "blue", 30000,1985);
+    vehicles[2] = new Bus("Merc", "MonoBlock", "white", 40000,1990);
+    vehicles[3] = new Van("Merc", "Sprinter", "black", 50000,2010);
+
+    Person people [] = new Person[2];
+    people[0] = new Person("Vitor", "Pires", 29, 9, 2003);
+    people[1] = new Customer(people[0], "vitor.pr@teste.com", "7398545529", 5000);
   
-  private static void menu() {
-    System.out.println("menu content");
-
-    int choice = input.nextInt();
-
-    switch(choice){
-      case 0:
-        break;
-      case 1:
-        sellVehicle();
-        break;
-      case 2:
-        showVehiclesCount();
-        break;
-      case 3:
-        //scheduleMaintence();
-      break;
-    }
+    listThings(vehicles);
+    listThings(people);
   }
 
-  private static void sellVehicle(){
-
+  private static <T> void listThings(T arr[]){
+    for(T thing : arr)
+      System.out.println(thing);
   }
-
-  private static void showVehiclesCount() {
-    // "Cars = "Car.getCarCount
-    // "Trucks = "Truck.getCarCount 
-    // "Buses = "Buses.getCarCount 
-    // "Bikes = "Bikes.getCarCount 
-    // "Vans = "Vans.getCarCount 
-  }
-
 }
 
 // list vehicles , we would say, Trucks: Truck.qntd, Cars: Cars.qntd, ... 

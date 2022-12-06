@@ -1,6 +1,7 @@
+package main;
 import javax.swing.JOptionPane;
 
-public class Main{
+public class Menu{
   public static void main(String[] args) {
     int choice;
 
@@ -67,7 +68,6 @@ public class Main{
     str += "2. Van.\n";
     str += "3. Bus.\n";
     str += "4. Truck.\n";
-    str += "4. Motorcycle.\n";
     
     return str;
   }
