@@ -3,7 +3,7 @@ package models.vehicles;
 import models.types.ChassisType;
 import services.Services;
 
-public class Vehicle {
+abstract public class Vehicle {
   private String brand;
   private String model;
   private String color;
@@ -64,6 +64,20 @@ public class Vehicle {
       this.fabricationYear = fabrication;
     else
       System.out.println("You cannot change the year to a invalid one.");
+  }
+
+  public String getModelName(){
+    return this.model;
+  }
+
+  public int getFabYear(){
+    return this.fabricationYear;
+  }
+
+  public float getPrice(/*Array of optionals */){
+    //  for each optional where include equals true  
+    //    finalPrice += optional
+    return this.price;
   }
 
   public String toString(){

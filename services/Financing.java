@@ -10,7 +10,11 @@ public class Financing {
   }
 
   public static float getInstallmentsPrice(float vehiclePrice, FinancingType financingType){
-    return (float) vehiclePrice / financingType.getTimeToPayInMonths();
+    return (float) ((vehiclePrice * financingType.getTax()) - ENTRANCE) / financingType.monthsToPay();
+  }
+
+  public static int getInstallmentsQuantity(FinancingType financingType){
+    return financingType.monthsToPay();
   }
 
   public static float getPriceWithFinancing(float vehiclePrice, FinancingType financingType){

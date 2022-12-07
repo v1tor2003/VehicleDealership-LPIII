@@ -1,6 +1,7 @@
 package models.types;
 
 public enum FinancingType {
+  NO_TAX(0, 1),
   MIN_TAX(0.05f, 24),
   MID_TAX(0.1f, 48),
   MAX_TAX(0.15f, 96);
@@ -17,7 +18,7 @@ public enum FinancingType {
     return this.taxValue;
   }
 
-  public int getTimeToPayInMonths(){
+  public int monthsToPay(){
     return this.monthsToPay;
   }
 }
