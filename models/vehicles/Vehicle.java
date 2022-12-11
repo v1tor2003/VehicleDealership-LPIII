@@ -4,14 +4,15 @@ import models.types.ChassisType;
 import services.Services;
 
 abstract public class Vehicle {
+  private ChassisType vehicleType;
   private String brand;
   private String model;
   private String color;
   private Integer fabricationYear;
+  private Integer mileage;
   private Float price;
-  private ChassisType vehicleType;
 
-  public Vehicle(ChassisType vehicle, String brand, String model, String color, float price, int fab){
+  public Vehicle(ChassisType vehicle, String brand, String model, String color, float price, int fab, int km){
     if(validateVehicle(brand, model, color)){
       this.brand = brand;
       this.model = model;
@@ -28,6 +29,10 @@ abstract public class Vehicle {
     else
       this.price = 0.0f;
 
+    if(validateMileage(km))
+      this.mileage = km;
+    else
+      this.mileage = 0;
 
     vehicleType = vehicle;
   }
@@ -44,6 +49,10 @@ abstract public class Vehicle {
   private boolean validateFabYear(int fabrication){
     
     return fabrication >= 1900;
+  }
+
+  private boolean validateMileage(int km){
+    return km >= 0;
   }
 
   private boolean isCurrentFabYearValid(){
@@ -81,7 +90,7 @@ abstract public class Vehicle {
   }
 
   public String toString(){
-    return String.format("Type: %s\nBrand: %s\nModel: %s\nColor: %s\nFabrication Year: %d\nPrice: $%.2f\n", 
-                          this.vehicleType, this.brand, this.model, this.color, this.fabricationYear, this.price);
+    return String.format("Type: %s\nBrand: %s\nModel: %s\nColor: %s\nFabrication Year: %d\nPrice: $%.2f\nMileage: %d km", 
+                          this.vehicleType, this.brand, this.model, this.color, this.fabricationYear, this.price, this.mileage);
   }
 }

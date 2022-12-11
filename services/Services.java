@@ -51,4 +51,15 @@ public class Services {
 
     return isColorValid;
   }
+
+  public static String concatenateArrayOfStrings(String [] arr){
+    String result = "";
+    for(String str : arr)
+      result += str;
+    return result;
+  }
+
+  public static boolean isInInterval(int number, int start, int end){
+    return number >= start && number <= end;
+  }
 }

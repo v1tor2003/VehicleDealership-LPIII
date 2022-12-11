@@ -20,9 +20,10 @@ MENU PRINCIPAL
   0. Back.
   1 showMainteceQueue()
   2 scheduledMaintence()
-4. Show Registered Customers 
+4. Customers 
   0. Back
   1. showAllCustomers()
+  2. RegisterCustomers()
 5. Show DealerShip Status
   0. Back
   1. showStats()
@@ -30,7 +31,7 @@ MENU PRINCIPAL
 
 
     registerCustomer()
-      new Customer (params)
+    new Customer (params)
 
     showVehicles()
       - 0. Cancel.

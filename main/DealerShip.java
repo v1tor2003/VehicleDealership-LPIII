@@ -1,20 +1,33 @@
 package main;
 
-import java.util.Scanner;
-
-import models.people.Customer;
-import models.people.Person;
-import models.types.ChassisType;
-import models.vehicles.*;
-
 public class DealerShip {
-  private static Scanner input = new Scanner(System.in);
-
-  public static void main(String [] args) {
-    
-  }
-
+  private static String test = "tesing dealership";
  
+  public static void list() { 
+    System.out.println(test);
+  }
 }
 
 // list vehicles , we would say, Trucks: Truck.qntd, Cars: Cars.qntd, ... 
+
+
+// menu
+//0. exit
+//1. DelaerShip
+  //-ShowRoom
+    //show()
+    //add()
+
+  //-Oficina
+    //showQueue()
+// 2. sell
+  // sell car
+  // sell truck
+// 3. custoer
+  // show()
+  // add()
+  // find
+  // sellUsedCar()
+
+// new Menu
+// var.run()

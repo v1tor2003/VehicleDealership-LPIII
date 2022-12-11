@@ -66,10 +66,13 @@ public class Customer extends Person {
     return str;
   } 
 
+  private int getOwnedVehicles(){
+    return this.ownedVehicles.size();
+  }
 
   @Override
   public String toString(){
-    return String.format("%sEmail: %s\nPhone: %s\nSalary: %.2f\n", super.toString()
-                                  , this.email, this.phone, this.salary);
+    return String.format("%sEmail: %s\nPhone: %s\nSalary: %.2f\nVehicles Owned: %d", super.toString()
+                                  , this.email, this.phone, this.salary, this.getOwnedVehicles());
   }
 }
