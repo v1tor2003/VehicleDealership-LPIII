@@ -89,6 +89,10 @@ abstract public class Vehicle {
     return this.price;
   }
 
+  public int getMileage(){
+    return this.mileage;
+  }
+
   public String toString(){
     return String.format("Type: %s\nBrand: %s\nModel: %s\nColor: %s\nFabrication Year: %d\nPrice: $%.2f\nMileage: %d km", 
                           this.vehicleType, this.brand, this.model, this.color, this.fabricationYear, this.price, this.mileage);

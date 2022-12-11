@@ -1,13 +1,16 @@
 package main.menu;
 
+import main.DealerShip;
 import services.Services;
 
 public class CustomersMenu extends MenuBase{
   private short menuOptions;
+  private DealerShip dealerShipRef;
   private final static boolean isMain = false;
-  private final static String [] currentMenuStringOptions = {"Select:\n", "0. Back.\n", "1. Test.\n"};
+  private final static String [] currentMenuStringOptions = {"Select:\n", "0. Back.\n", "1. Register New Customer.\n","2. Show All Customers\n"};
   
-  public CustomersMenu(){
+  public CustomersMenu(DealerShip refToDealerShipObj){
+    dealerShipRef = refToDealerShipObj;
     menuOptions = (short) (currentMenuStringOptions.length - 1);
   }
 

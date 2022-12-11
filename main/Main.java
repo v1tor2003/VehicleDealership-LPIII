@@ -4,7 +4,8 @@ import main.menu.ApplicationMenu;
 
 public class Main { 
   public static void main(String [] args) {
-    ApplicationMenu applicationMenu = new ApplicationMenu();
+    DealerShip dealerShip = new DealerShip();
+    ApplicationMenu applicationMenu = new ApplicationMenu(dealerShip);
     applicationMenu.run();
   }
 }

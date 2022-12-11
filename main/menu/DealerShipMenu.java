@@ -1,15 +1,18 @@
 package main.menu;
 
+import main.DealerShip;
 import services.Services;
 
 public class DealerShipMenu extends MenuBase{
-  private ShowRoomMenu showRoomMenu = new ShowRoomMenu();
-  private MaintenceMenu maintenceMenu = new MaintenceMenu();
+  private ShowRoomMenu showRoomMenu;
+  private MaintenceMenu maintenceMenu;
   private short menuOptions;
   private final static boolean isMain = false;
   private final static String [] currentMenuStringOptions = {"Select:\n", "0. Back.\n", "1. Enter ShowRoom.\n", 
                                                       "2. Enter Maintence.\n"};
-  public DealerShipMenu(){
+  public DealerShipMenu(DealerShip refToDealerShipObj){
+    showRoomMenu = new ShowRoomMenu(refToDealerShipObj);
+    maintenceMenu = new MaintenceMenu(refToDealerShipObj);
     menuOptions = (short) (currentMenuStringOptions.length - 1);
   }
 

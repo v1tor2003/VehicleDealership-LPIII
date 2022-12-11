@@ -1,13 +1,17 @@
 package main.menu;
 
+import main.DealerShip;
 import services.Services;
 
 public class ShowRoomMenu extends MenuBase{
+  private DealerShip dealerShipRef;
   private short menuOptions;
   private final static boolean isMain = false;
-  private final static String [] currentMenuStringOptions = {"Select:\n", "0. Back.\n", "1. Test.\n"};
+  private final static String [] currentMenuStringOptions = {"Select:\n", "0. Back.\n", "1. Show Available Vehicles.\n", "2. Buy New Vehicle\n", 
+                                                              "3. Buy Used Vehicle\n", "4. Order New Vehicle\n",};
   
-  public ShowRoomMenu(){
+  public ShowRoomMenu(DealerShip refToDealerShipObj){
+    dealerShipRef = refToDealerShipObj;
     menuOptions = (short) (currentMenuStringOptions.length - 1);
   }
 
@@ -24,8 +28,8 @@ public class ShowRoomMenu extends MenuBase{
   @Override
   protected void performAction(short option, boolean isMain){
     super.performAction(option, isMain);
-    //if(option == 1)
-      //TODO
+    if(option == 1)
+      dealerShipRef.showRoomVehicles();
     //else if (option == 2)
       //maintenceMenu.run();
   }
