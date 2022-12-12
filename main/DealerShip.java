@@ -1,25 +1,18 @@
 package main;
 
-import java.util.Scanner;
-
-import main.menu.OrderMenu;
 import models.people.Customer;
 import models.vehicles.Vehicle;
 
 
 public class DealerShip {
-  private static Scanner keyBoardInput = new Scanner(System.in);
   private static ShowRoom showRoom;
   private static float capital;
   private static int soldVehicles;
-  private static int orderedVehicles;
-
 
   public DealerShip(){
     showRoom = new ShowRoom();
     capital = 0;
     soldVehicles = 0;
-    orderedVehicles = 0;
   }
 
   public void sellVehicle(Vehicle vehicleToSell){
@@ -31,7 +24,7 @@ public class DealerShip {
       System.out.println("Vehicle Not Found.");
     }
   }
-
+  
   public void buyUsedCarFromCustomer(Customer customer){
     System.out.println("-> Buying Used Car.");
 
@@ -44,15 +37,12 @@ public class DealerShip {
       System.out.println(showRoom.toString());
   }
 
-  public void orderVehicle(Vehicle orderedVehicle){
-    OrderMenu orderingMenu = new OrderMenu();
-    orderingMenu.run();
-    orderedVehicles += 1;
-    showRoom.add(orderedVehicle);
+  public void orderVehicle(){
+  
   }
 
   public static String getDealerShipStatus(){
-    return String.format("-> Status\nAvailable Vehicles: %d\nCurrent Capital: $ %.2f\nSold Vehicles: %d\n\n", 
+    return String.format("\n-> Status\nAvailable Vehicles: %d\nCurrent Capital: $ %.2f\nSold Vehicles: %d\n\n", 
                         showRoom.availableVehicles(), capital, soldVehicles);
   }
 }

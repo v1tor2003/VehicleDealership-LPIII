@@ -5,7 +5,7 @@ import services.Services;
 
 public class CustomersMenu extends MenuBase{
   private short menuOptions;
-  private DealerShip dealerShipRef;
+  private DealerShip dealerShipRef; 
   private final static boolean isMain = false;
   private final static String [] currentMenuStringOptions = {"Select:\n", "0. Back.\n", "1. Register New Customer.\n","2. Show All Customers\n"};
   
@@ -28,7 +28,7 @@ public class CustomersMenu extends MenuBase{
   protected void performAction(short option, boolean isMain){
     super.performAction(option, isMain);
     //if(option == 1)
-      //TODO
+      //TODO 
     //else if (option == 2)
       //maintenceMenu.run();
   }

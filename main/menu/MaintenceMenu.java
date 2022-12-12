@@ -7,7 +7,8 @@ public class MaintenceMenu extends MenuBase{
   private DealerShip dealerShipRef;
   private short menuOptions;
   private final static boolean isMain = false;
-  private final static String [] currentMenuStringOptions = {"Select:\n", "0. Back.\n", "1. Test.\n"};
+  private final static String [] currentMenuStringOptions = {"Select:\n", "0. Back.\n", "1. Show Maintence Queue.\n"
+                                                      , "2. Schedule Maintence\n"};
   
   public MaintenceMenu(DealerShip refToDealerShipObj){
     dealerShipRef = refToDealerShipObj;

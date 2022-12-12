@@ -7,7 +7,6 @@ public class ShowRoom {
   private static SinglyLinkedList<Vehicle> newVehicles;
   private static SinglyLinkedList<Vehicle> usedVehicles;
 
-
   public ShowRoom(){
     newVehicles = new SinglyLinkedList<>();
     usedVehicles = new SinglyLinkedList<>();

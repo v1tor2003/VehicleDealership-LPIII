@@ -10,6 +10,7 @@ public class ApplicationMenu extends MenuBase{
   private static boolean isMain;
   private final static String [] mainMenuStringOptions = {"Select:\n", "0. Exit Program.\n", "1. Enter DealerShip.\n", 
                                                       "2. Customers Options.\n", "3. Show Company Status.\n"};
+                                                      
   public ApplicationMenu(DealerShip refToDealerShipObj){
     dealerShipMenu = new DealerShipMenu(refToDealerShipObj);
     customersMenu = new CustomersMenu(refToDealerShipObj);
