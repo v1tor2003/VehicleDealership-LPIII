@@ -6,11 +6,11 @@ public class MenuBase{
   protected final static short exitChoice = 0;
   private static Scanner keyBoardInput = new Scanner(System.in);  
   
-  public void run(String currentMenu, boolean menu, short menuOptinons){
+  public void run(String currentMenu, boolean isMainMenu, short menuOptinons){
     while(!exit){
       System.out.println(currentMenu);
       short choice = MenuBase.getChoice(menuOptinons);
-      performAction(choice, menu);
+      performAction(choice, isMainMenu);
     }
   }
 
@@ -22,10 +22,10 @@ public class MenuBase{
     return "";
   }
 
-  protected void performAction(short option, boolean menu){
+  protected void performAction(short option, boolean isMainMenu){
     if(option == 0){
       exit = true;
-      if(menu)
+      if(isMainMenu)
         System.out.println("Exiting Programm...");
       else
         System.out.println("Going back...");

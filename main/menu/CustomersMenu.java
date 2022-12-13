@@ -1,16 +1,18 @@
 package main.menu;
 
-import main.DealerShip;
+import main.CustomerRecords;
+import models.people.Customer;
 import services.Services;
 
 public class CustomersMenu extends MenuBase{
   private short menuOptions;
-  private DealerShip dealerShipRef; 
+  private  CustomerRecords refToManipulateCustomerRecords;
+  private Customer cusToAdd;
   private final static boolean isMain = false;
-  private final static String [] currentMenuStringOptions = {"Select:\n", "0. Back.\n", "1. Register New Customer.\n","2. Show All Customers\n"};
-  
-  public CustomersMenu(DealerShip refToDealerShipObj){
-    dealerShipRef = refToDealerShipObj;
+  private final static String [] currentMenuStringOptions = {"Select:\n", "0. Back.\n", "1. Register New Customer.\n","2. Delete Customer\n","3. Show All Customers\n"};
+
+  public CustomersMenu(CustomerRecords refToCustomerRecordsObj){
+    this.refToManipulateCustomerRecords=refToCustomerRecordsObj;
     menuOptions = (short) (currentMenuStringOptions.length - 1);
   }
 
@@ -27,10 +29,21 @@ public class CustomersMenu extends MenuBase{
   @Override
   protected void performAction(short option, boolean isMain){
     super.performAction(option, isMain);
-    //if(option == 1)
+    if(option == 1)
+    {
+      refToManipulateCustomerRecords.add();
+    }
       //TODO 
     //else if (option == 2)
-      //maintenceMenu.run();
+      //refToManipulateCustomerRecords.remove();
+
+      //TODO 
+     else if(option==3)
+     {
+        refToManipulateCustomerRecords.showCustomers();
+     }
+      
+
   }
 
 

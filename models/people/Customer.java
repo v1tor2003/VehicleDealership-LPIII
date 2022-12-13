@@ -7,14 +7,13 @@ import services.Data;
 import services.Financing;
 import services.Services;
 
-public class Customer extends Person {
+public class Customer extends Person implements Comparable<Customer>{
   private String email;
   private String phone;
-  private float salary;
   private SinglyLinkedList<Vehicle> ownedVehicles;
 
-  public Customer(String firstName, String lastName, int day, int month, int year, String email, String phone, float salary) {
-    super(firstName, lastName, day, month, year);
+  public Customer(String firstName, String lastName, String cpf,int day, int month, int year, String email, String phone) {
+    super(firstName, lastName,cpf, day, month, year);
     //TODO Auto-generated constructor stub
     if(Services.validateEmail(email))
       this.email = email;
@@ -25,26 +24,17 @@ public class Customer extends Person {
       this.phone = phone;
     else
       this.phone = new String ("Not valid");
-    
-    if(validateCustomerSalary(salary))
-      this.salary = salary;
-    else
-      this.salary = 1100;
-
+      
     ownedVehicles = new SinglyLinkedList<>();
   }
 
-  public Customer(String firstName, String lastName, Data birthDate, String email, String phone, float salary){
-    this(firstName, lastName, birthDate.getDia(),birthDate.getMes(), birthDate.getAno(), email, phone, salary);
+  public Customer(String firstName, String lastName, String cpf, Data birthDate, String email, String phone){
+    this(firstName, lastName, cpf,birthDate.getDia(),birthDate.getMes(), birthDate.getAno(), email, phone);
   }
 
-  public Customer(Person existingPerson, String email, String phone, float salary){
-    this(existingPerson.getFirstName(),existingPerson.getLastName(), existingPerson.getBirthDate(),
-        email, phone, salary);
-  }
-  
-  private boolean validateCustomerSalary(float input){
-    return input >= 0;
+  public Customer(Person existingPerson, String email, String phone){
+    this(existingPerson.getFirstName(),existingPerson.getLastName(), existingPerson.getCPF(),existingPerson.getBirthDate(),
+        email, phone);
   }
 
   public void buyVehilce(Vehicle vehicle, FinancingType financing){
@@ -72,7 +62,26 @@ public class Customer extends Person {
 
   @Override
   public String toString(){
-    return String.format("%sEmail: %s\nPhone: %s\nSalary: %.2f\nVehicles Owned: %d", super.toString()
-                                  , this.email, this.phone, this.salary, this.getOwnedVehiclesQuantity());
+    return String.format("%sEmail: %s\nPhone: %s\nVehicles Owned: %d\n", super.toString()
+                                  , this.email, this.phone,this.getOwnedVehiclesQuantity());
   }
+
+  @Override
+  public int compareTo(Customer obj) {
+    // TODO Auto-generated method stub
+    return this.getCPF().compareTo(obj.getCPF());
+  }
+
+  private boolean equalsLocal(Customer obj)
+  {
+    return compareTo(obj)==0;
+  }
+
+  @Override
+  public boolean equals(Object obj)
+  {
+    return equalsLocal((Customer)obj);
+  }
+
 }
+

@@ -1,5 +1,6 @@
 package main.menu;
 
+import main.CustomerRecords;
 import main.DealerShip;
 import services.Services;
 
@@ -11,9 +12,9 @@ public class ApplicationMenu extends MenuBase{
   private final static String [] mainMenuStringOptions = {"Select:\n", "0. Exit Program.\n", "1. Enter DealerShip.\n", 
                                                       "2. Customers Options.\n", "3. Show Company Status.\n"};
                                                       
-  public ApplicationMenu(DealerShip refToDealerShipObj){
+  public ApplicationMenu(DealerShip refToDealerShipObj, CustomerRecords refCustomerRecordsObj){
     dealerShipMenu = new DealerShipMenu(refToDealerShipObj);
-    customersMenu = new CustomersMenu(refToDealerShipObj);
+    customersMenu = new CustomersMenu(refCustomerRecordsObj);
     isMain = true;
     menuOptions = (short) (mainMenuStringOptions.length - 1);
   }

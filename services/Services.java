@@ -1,6 +1,9 @@
 package services;
 
 public class Services {
+  final private static int phoneSize = 10;
+  final private static int cpfSize = 11;
+
   public static boolean validateRandName(String str){
     return str != null;
   }
@@ -14,26 +17,21 @@ public class Services {
   }
 
   public static boolean validatePhoneNumber(String phone){
-    final int phoneNumberSize = 10;
-    
-    if(phone == null || phone.length() != 10 )
+    return isSequenceOfNumbers(phone, phoneSize);
+  }
+  public static boolean validateCPF(String cpf){
+    return isSequenceOfNumbers(cpf, cpfSize);
+  }
+  
+  public static boolean isSequenceOfNumbers(String str,int sizeFormat){
+    final char strAsCharArray[]=str.toCharArray();
+    if(str.length()!=sizeFormat)
       return false;
-    
-    boolean isEqualToANumber = false;
-    final char phoneNumberAsCharArray [] = phone.toCharArray();
-    final char numbersAsChar [] = {'0','1', '2', '3', '4', '5', '6', '7', '8', '9'};
-    
-    for(int i = 0; i < phoneNumberSize; i++){
-      for(int j = 0; j < numbersAsChar.length; j++){
-        if(phoneNumberAsCharArray[i] == numbersAsChar[j]){
-          isEqualToANumber = true;
-          break;
-        }
-      }
-      if (!isEqualToANumber)
+    for(int i=0;i<str.length();i++)
+    {
+      if(!Character.isDigit(strAsCharArray[i]))
         return false;
     }
-
     return true;
   }
   

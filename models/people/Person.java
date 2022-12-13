@@ -6,21 +6,23 @@ import services.Services;
 public class Person{
   private String firstName;
   private String lastName;
+  private String cpf;
   private int age;
   private Data birthDate;
 
-  public Person(String firstName, String lastName, int dia, int mes, int ano){
+  public Person(String firstName, String lastName,String cpf, int dia, int mes, int ano){
     if(Services.validateRandName(firstName))
       this.firstName = firstName;
     if(Services.validateRandName(firstName))
       this.lastName = lastName;
-
+    if(Services.validateCPF(cpf))
+      this.cpf=cpf;
     this.birthDate = new Data(dia, mes, ano);
     age = getPersonAge(birthDate);
   }
   
-  public Person(String firstName, String lastName, Data birthDate){
-    this(firstName, lastName, birthDate.getDia(), birthDate.getMes(), birthDate.getAno());
+  public Person(String firstName, String lastName,String cpf, Data birthDate){
+    this(firstName, lastName, cpf,birthDate.getDia(), birthDate.getMes(), birthDate.getAno());
   }
 
   private String getFullName(){
@@ -38,6 +40,11 @@ public class Person{
   protected Data getBirthDate(){
     return this.birthDate;
   }
+  
+  protected String getCPF()
+  {
+    return this.cpf;
+  }
 
   private int getPersonAge(Data birhDate){
     Data curData = Data.getCurrentData();
@@ -52,6 +59,8 @@ public class Person{
   }
 
   public String toString(){
-    return String.format("Name: %s\nBorn in: %s\n", this.getFullName(), this.birthDate);
+    return String.format("Name: %s\nBorn in: %s\nCpf: %s\n", this.getFullName(), this.birthDate,this.cpf);
   }
+
+ 
 }
