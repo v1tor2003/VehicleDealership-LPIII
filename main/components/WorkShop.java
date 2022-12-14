@@ -6,9 +6,10 @@ import ds.queue.Queue;
 import models.types.BateryType;
 import models.types.OilType;
 import models.types.TireType;
+import services.Services;
 
 public class WorkShop {
-  private static Scanner input = new Scanner(System.in);
+  private static Scanner keyBoardInput = new Scanner(System.in);
   private final static int workShopSpace = 5;
   private static Inventory stock;
   private static Queue<Maintence> maintenceQueue;
@@ -16,7 +17,6 @@ public class WorkShop {
   private static final float baterySwapService = 100;
   private static final float tireRenovationService = 200;
   private static final float increaseTax = 0.25f;
-
 
   public WorkShop(){
     stock = new Inventory();
@@ -44,6 +44,36 @@ public class WorkShop {
     System.out.println(pricesOfServices());
     System.out.println(pricesOfParts());
     // enter new maintence
+    System.out.println("To Start A New Maintence, Enter Your Vehicle Type And Desired Service");
+    System.out.println("Such As: <Vehicle Type> <Service Name>");
+    
+    String userInput = keyBoardInput.nextLine();
+    if(userInput.equals("0")){
+      System.out.println("<- Going Back...");
+      return;
+    }
+    
+    String vehicleType = userInput.substring(0, userInput.indexOf(" "));
+    String serviceType = userInput.substring(userInput.indexOf(" "));
+    
+    while(!validateUserInput(vehicleType, serviceType)){
+      userInput = keyBoardInput.nextLine();
+      vehicleType = userInput.substring(0, userInput.indexOf(" "));
+      serviceType = userInput.substring(userInput.indexOf(" "));  
+    }
+    // if no part in the stock, ask for continuating for more money
+    // stock.respectivepart contais? if yes, we just schele
+    // else we ask if the customer wants to continue
+    maintenceQueue.enQueue(new Maintence(null));
+  }
+
+  private boolean validateUserInput(String vehicle, String service){
+
+    return Services.validateVehicleType(vehicle) && Services.validateWorkShopServiceChoice(service);
+  }
+
+  private float increaseServicePriceForHeavyVehicles(float input){
+    return input + (input * increaseTax);
   }
 
   private String pricesOfServices(){
@@ -57,10 +87,6 @@ public class WorkShop {
                                                                             increaseServicePriceForHeavyVehicles(oilChangeService));
     str += "__________________________________________________\n";
     return str;
-  }
-
-  private float increaseServicePriceForHeavyVehicles(float input){
-    return input + (input * increaseTax);
   }
   
   private String pricesOfParts(){

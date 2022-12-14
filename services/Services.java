@@ -6,6 +6,10 @@ import models.types.OilType;
 import models.types.TireType;
 
 public class Services {
+  private static final String [] basicColors = {"red", "black", "white", "grey", "orange",
+  "blue", "green", "yellow", "pink"};
+  private static final String [] availableVehicleType = {"car", "truck", "bus", "van"};
+  private static final String [] availableWorkShopServices = {"batery swap", "tire renovation", "oil change"};
   final private static int phoneSize = 10;
   final private static int cpfSize = 11;
 
@@ -41,18 +45,8 @@ public class Services {
   }
   
   public static boolean validateColor(String color){
-    final String [] basicColors = {"red", "black", "white", "grey", "orange",
-    "blue", "green", "yellow", "pink"};
-
-    color.toLowerCase();
-
-    boolean isColorValid = false;
-
-    for(String basicColor : basicColors)
-      if(color.matches(basicColor + "(.*)"))
-        isColorValid = true; 
-
-    return isColorValid;
+  
+    return validateStringInputFild(color, basicColors);
   }
 
   public static String concatenateArrayOfStrings(String [] arr){
@@ -88,4 +82,26 @@ public class Services {
 
     return TireType.TRUCK_TIRE;
   }
+
+  public static boolean validateStringInputFild(String str, String [] refArray){
+    str.toLowerCase();
+    boolean isStrValid = false;
+    
+    for(String stringInArray : refArray)
+      if(str.matches("(.*)" + stringInArray + "(.*)"))
+        isStrValid = true;
+
+    return isStrValid;
+  }
+
+  public static boolean validateVehicleType(String str){
+
+    return validateStringInputFild(str, availableVehicleType);
+  }
+
+  public static boolean validateWorkShopServiceChoice(String str){
+    
+    return validateStringInputFild(str, availableWorkShopServices);
+  }
+
 }

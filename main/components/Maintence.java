@@ -6,10 +6,12 @@ import services.TimeAsInt;
 public class Maintence {
   private TimeAsInt startTime;
   private TimeAsInt finishTime;
+  private short inQueueId;
   private PartBase part;
   final private static int jobDurationInMinutes = 3;
 
-  public Maintence(PartBase part){
+  public Maintence(PartBase part, short queuePosition){
+    this.inQueueId = Math.random()// from 1 to ;
     this.startTime = TimeAsInt.getCurrentTime();
     this.finishTime = new TimeAsInt(TimeAsInt.addHours(startTime, 0, jobDurationInMinutes, 0));
     this.part = part;
@@ -24,7 +26,6 @@ public class Maintence {
   }
 
   public String toString(){
-    return String.format("Start Time: %s, Time Left: %s\nJob: %s\n", 
-                                this.startTime, TimeAsInt.diffTime(startTime, finishTime), this.part);
+    return String.format("Service Id: %d, Start Time: %s, Time Left: %s\n", this.part, this.startTime, TimeAsInt.diffTime(startTime, finishTime));
   }
 }
