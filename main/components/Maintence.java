@@ -10,8 +10,8 @@ public class Maintence {
   private PartBase part;
   final private static int jobDurationInMinutes = 3;
 
-  public Maintence(PartBase part, short queuePosition){
-    this.inQueueId = Math.random()// from 1 to ;
+  public Maintence(PartBase part){
+    //this.inQueueId = Math.random()// from 1 to ;
     this.startTime = TimeAsInt.getCurrentTime();
     this.finishTime = new TimeAsInt(TimeAsInt.addHours(startTime, 0, jobDurationInMinutes, 0));
     this.part = part;

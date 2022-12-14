@@ -4,4 +4,5 @@ public interface PartI {
   @Override
   String toString();
   float getPartPrice();
+  float noAvailablePartTax();
 }

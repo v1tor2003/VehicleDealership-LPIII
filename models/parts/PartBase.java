@@ -17,6 +17,11 @@ abstract public class PartBase implements PartI{
   }
 
   @Override
+  public float noAvailablePartTax(){
+    return this.partPrice + partPrice * 0.2f;
+  }
+
+  @Override
   public String toString(){
     return String.format("Part: %s, Price: %.2f", this.name, this.getPartPrice());
   }

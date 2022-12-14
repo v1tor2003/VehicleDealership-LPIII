@@ -10,9 +10,10 @@ public class Inventory {
   private static Stack<PartBase> tireStock;
   private static Stack<PartBase> oilStock;
 
-
   public Inventory(){
-
+    bateryStock = new Stack<>();
+    tireStock = new Stack<>();
+    oilStock = new Stack<>();
   }
 
   public void setStartingParts(){

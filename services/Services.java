@@ -2,6 +2,7 @@ package services;
 
 import models.types.BateryType;
 import models.types.ChassisType;
+import models.types.MaintenceType;
 import models.types.OilType;
 import models.types.TireType;
 
@@ -46,7 +47,7 @@ public class Services {
   
   public static boolean validateColor(String color){
   
-    return validateStringInputFild(color, basicColors);
+    return validateStringInputField(color, basicColors);
   }
 
   public static String concatenateArrayOfStrings(String [] arr){
@@ -58,6 +59,28 @@ public class Services {
 
   public static boolean isInInterval(int number, int start, int end){
     return number >= start && number <= end;
+  }
+
+  public static ChassisType getChassisType(String str){
+    if(str.toLowerCase().equals("bus"))
+      str = "truck";
+
+    for(ChassisType chassis : ChassisType.values())
+      if (chassis.getChassisDesc().equals(str.toLowerCase()))
+        return chassis;
+
+    return null;
+  }
+
+  public static MaintenceType getMaintenceType(String str){
+    if(str.toLowerCase().equals("bus"))
+      str = "truck";
+
+    for(MaintenceType service : MaintenceType.values())
+      if(service.getMaintenceDesc().equals(str.toLowerCase()))
+        return service;
+    
+    return null;
   }
 
   public static OilType getOilType(ChassisType chassis){
@@ -83,25 +106,24 @@ public class Services {
     return TireType.TRUCK_TIRE;
   }
 
-  public static boolean validateStringInputFild(String str, String [] refArray){
-    str.toLowerCase();
+  public static boolean validateStringInputField(String str, String [] refArray){
     boolean isStrValid = false;
-    
-    for(String stringInArray : refArray)
-      if(str.matches("(.*)" + stringInArray + "(.*)"))
-        isStrValid = true;
 
+    for(String stringInArray : refArray)
+      if(str.toLowerCase().equals(stringInArray))
+        isStrValid = true;
+  
     return isStrValid;
   }
 
   public static boolean validateVehicleType(String str){
 
-    return validateStringInputFild(str, availableVehicleType);
+    return validateStringInputField(str, availableVehicleType);
   }
 
   public static boolean validateWorkShopServiceChoice(String str){
     
-    return validateStringInputFild(str, availableWorkShopServices);
+    return validateStringInputField(str, availableWorkShopServices);
   }
 
 }

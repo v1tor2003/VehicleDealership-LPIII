@@ -3,7 +3,13 @@ package main.components;
 import java.util.Scanner;
 
 import ds.queue.Queue;
+import models.parts.Batery;
+import models.parts.Oil;
+import models.parts.PartBase;
+import models.parts.Tire;
 import models.types.BateryType;
+import models.types.ChassisType;
+import models.types.MaintenceType;
 import models.types.OilType;
 import models.types.TireType;
 import services.Services;
@@ -43,28 +49,58 @@ public class WorkShop {
     System.out.println("0. Back.");
     System.out.println(pricesOfServices());
     System.out.println(pricesOfParts());
-    // enter new maintence
-    System.out.println("To Start A New Maintence, Enter Your Vehicle Type And Desired Service");
-    System.out.println("Such As: <Vehicle Type> <Service Name>");
+    System.out.println("To Start A New Maintence, Enter Your Vehicle Type And Desired Service.");
+    System.out.println("Such As: <Vehicle Type> <Service Name>.");
     
     String userInput = keyBoardInput.nextLine();
-    if(userInput.equals("0")){
-      System.out.println("<- Going Back...");
+    if(userWantsToCancel(userInput)){
+      System.out.println("\n<- Going Back...\n");
       return;
     }
     
     String vehicleType = userInput.substring(0, userInput.indexOf(" "));
-    String serviceType = userInput.substring(userInput.indexOf(" "));
+    String serviceType = userInput.substring(userInput.indexOf(" ") + 1);
     
     while(!validateUserInput(vehicleType, serviceType)){
+      System.out.println("Invalid Input, Try Again.");
       userInput = keyBoardInput.nextLine();
+
+      if(userWantsToCancel(userInput)){
+        System.out.println("\n<- Going Back...\n");
+        return;
+      }
       vehicleType = userInput.substring(0, userInput.indexOf(" "));
       serviceType = userInput.substring(userInput.indexOf(" "));  
     }
-    // if no part in the stock, ask for continuating for more money
-    // stock.respectivepart contais? if yes, we just schele
-    // else we ask if the customer wants to continue
-    maintenceQueue.enQueue(new Maintence(null));
+
+    PartBase partToChange = setPartToChange(vehicleType, serviceType);
+
+    if(!stock.hasSpecificPart(partToChange)){
+      System.out.println("There Is No Parts Like This In The Stock.");
+      System.out.println("If You Wanna Continue The " + partToChange.toString() + "Will Cost $ "+ partToChange.noAvailablePartTax());
+      System.out.println("(Press 0 For Cancel Or Any Key To Continue.)");
+      userInput = keyBoardInput.nextLine();
+      if(userWantsToCancel(userInput));
+        return;
+    }
+
+    maintenceQueue.enQueue(new Maintence(partToChange));
+  }
+
+  private boolean userWantsToCancel(String str){
+    return str.equals("0");
+  }
+
+  private PartBase setPartToChange(String vehicleType, String serviceType){
+    ChassisType chassis = Services.getChassisType(vehicleType);
+    MaintenceType service = Services.getMaintenceType(serviceType);
+    
+    if(service == MaintenceType.BATERY_SWAP)
+      return new Batery(chassis);
+    else if(service == MaintenceType.OIL_CHANGE)
+      return new Oil(chassis);
+
+    return new Tire(chassis);
   }
 
   private boolean validateUserInput(String vehicle, String service){
