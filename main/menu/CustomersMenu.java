@@ -1,13 +1,11 @@
 package main.menu;
 
 import main.CustomerRecords;
-import models.people.Customer;
 import services.Services;
 
 public class CustomersMenu extends MenuBase{
   private short menuOptions;
   private  CustomerRecords refToManipulateCustomerRecords;
-  private Customer cusToAdd;
   private final static boolean isMain = false;
   private final static String [] currentMenuStringOptions = {"Select:\n", "0. Back.\n", "1. Register New Customer.\n","2. Delete Customer\n","3. Show All Customers\n"};
 
@@ -30,20 +28,9 @@ public class CustomersMenu extends MenuBase{
   protected void performAction(short option, boolean isMain){
     super.performAction(option, isMain);
     if(option == 1)
-    {
       refToManipulateCustomerRecords.add();
-    }
-      //TODO 
-    //else if (option == 2)
-      //refToManipulateCustomerRecords.remove();
-
-      //TODO 
-     else if(option==3)
-     {
-        refToManipulateCustomerRecords.showCustomers();
-     }
-      
-
+    else if(option==3)
+      refToManipulateCustomerRecords.showCustomers();
   }
 
 

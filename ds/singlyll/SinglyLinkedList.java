@@ -1,8 +1,9 @@
 package ds.singlyll;
 
-public class SinglyLinkedList<T> {
-  
-  protected static class Node<T> {
+import ds.interfaces.SinglyListI;
+
+public class SinglyLinkedList<T> implements SinglyListI<T>{
+  public static class Node<T> {
     private T data;
     private Node<T> next;
   
@@ -30,29 +31,35 @@ public class SinglyLinkedList<T> {
     this.size = 0;
   }
 
+  @Override
   public int size(){
     return this.size;
   }
 
+  @Override
   public boolean contains(T node){
     Node<T> testNode = findNode(this.head, node);
     
     return testNode != null;
   }
 
-  private boolean isEmpty() {
+  @Override
+  public boolean isEmpty() {
     
     return this.head == null;
   }
 
-  public String first(){
-    return this.head.toString();
+  @Override
+  public Node<T> first(){
+    return this.head;
   }
 
-  public String last(){
-    return this.tail.toString();
+  @Override
+  public Node<T> last(){
+    return this.tail;
   }
 
+  @Override
   public void insertAtStart(T data) {
     
     Node<T> newNode = createNode(data);
@@ -68,6 +75,7 @@ public class SinglyLinkedList<T> {
     this.size++;
   }
 
+  @Override
   public void insertAfter(T reference, T data) {
     
     Node<T> newNode = createNode(data);
@@ -83,6 +91,7 @@ public class SinglyLinkedList<T> {
     this.size++;
   }
 
+  @Override
   public void insertAtEnd(T data) {
     
     Node<T> newNode = createNode(data);
@@ -98,8 +107,7 @@ public class SinglyLinkedList<T> {
     this.size++;
   }
   
-  protected Node<T> findNode(Node<T> start, T reference) {
-    
+  public Node<T> findNode(Node<T> start, T reference){
     if(start == null)
       return null;
     
@@ -109,8 +117,7 @@ public class SinglyLinkedList<T> {
     return findNode(start.next, reference);
   }
 
-  private Node<T> createNode(T data) {
-    
+  public Node<T> createNode(T data) {    
     Node<T> node = new Node<T>(data);
 
     return node;
@@ -128,8 +135,7 @@ public class SinglyLinkedList<T> {
     return beforeEnd(start.next);
   }
 
-  public Node<T> removeFromStart() {
-    
+  public Node<T> removeFromStart(){
     if(isEmpty()){
       System.out.println("List is empty");
       return null;
@@ -146,8 +152,7 @@ public class SinglyLinkedList<T> {
     return temp;
   }
   
-  public Node<T> removeAfter(T reference) {
-    
+  public Node<T> removeAfter(T reference){
     if(isEmpty()){
       System.out.println("List is empty");
       return null;
@@ -165,15 +170,15 @@ public class SinglyLinkedList<T> {
     return temp;
   }
 
-  private Node<T> findBeforeNode(Node<T> start, T reference){
+  public Node<T> findBeforeNode(Node<T> start, T reference){
     if(start.next == null || start.next.data.equals(reference))
       return start;
 
     return findBeforeNode(start.next, reference);
   }
 
-  public Node<T> removeFromEnd() {
-    
+  @Override
+  public Node<T> removeFromEnd(){
     if(isEmpty()){
       System.out.println("List is empty");
       return null;
@@ -197,6 +202,7 @@ public class SinglyLinkedList<T> {
     return end;
   }
 
+  @Override
   public Node<T> remove(T reference){
     if(this.head.data.equals(reference))
       return removeFromStart();
@@ -207,6 +213,7 @@ public class SinglyLinkedList<T> {
     return removeAfter(beforeRef.data);
   }
 
+  @Override
   public String toString(){
     if(isEmpty())
       return "List is empty";
