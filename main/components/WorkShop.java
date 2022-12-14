@@ -4,13 +4,13 @@ import java.util.Scanner;
 
 import ds.queue.Queue;
 import models.parts.Batery;
-import models.parts.Oil;
+import models.parts.OilFilter;
 import models.parts.PartBase;
 import models.parts.Tire;
 import models.types.BateryType;
 import models.types.ChassisType;
 import models.types.MaintenceType;
-import models.types.OilType;
+import models.types.OilFilterType;
 import models.types.TireType;
 import services.Services;
 
@@ -22,7 +22,7 @@ public class WorkShop {
   private static final float oilChangeService = 50;
   private static final float baterySwapService = 100;
   private static final float tireRenovationService = 200;
-  private static final float increaseTax = 0.25f;
+  private static final float notAvailableTax = 0.25f;
 
   public WorkShop(){
     stock = new Inventory();
@@ -43,7 +43,7 @@ public class WorkShop {
 
   public void scheduleMaintence(){
     if(isFull() && tryFreeSpace() == null){
-      System.out.printf("WorkShop Is Full, Try Again In %s\n", maintenceQueue.first().getData().getTimeToFinish());
+      System.out.printf("WorkShop Is Full, Try Again In %s\n", maintenceQueue.first().getData());
       return;
     }
 
@@ -76,11 +76,24 @@ public class WorkShop {
     }
 
     PartBase partToChange = setPart(vehicleType, serviceType);
+    float servicePrice = getServicePrice(partToChange);
+    Maintence maintenceToDo = new Maintence(partToChange, servicePrice);
+    float oldPrice = maintenceToDo.getPartPrice();
 
     if(!stock.hasSpecificPart(partToChange)){
-      System.out.println("There Is No Parts Like This In The Stock.");
-      System.out.println("If You Wanna Continue The " + partToChange.toString() + "Will Cost $ "+ partToChange.noAvailablePartTax());
-      System.out.println("(Press 0 For Cancel Or Any Key To Continue.)");
+      maintenceToDo.setNewPartPrice(maintenceToDo.getPartPrice() + maintenceToDo.getPartPrice() * notAvailableTax);
+      System.out.println("There Are No Parts Like This In The Stock.");
+      System.out.println("If You Wanna Continue, The " + maintenceToDo.getPartName() + oldPrice + ", Will Cost Now $ " + maintenceToDo.getPartPrice() + ".");
+      System.out.println("(Press Any Key To Confirm Or 0 To Cancel.)");
+      userInput = keyBoardInput.nextLine();
+      
+      if(userWantsToCancel(userInput)){
+        System.out.println("\n<- Going Back...\n");
+        return;
+      }
+    }else{
+      System.out.println("Setting Up Maintence For The " + partToChange.toString() + ".");
+      System.out.println("(Press Any Key To Confirm Or 0 To Cancel.)");
       userInput = keyBoardInput.nextLine();
       
       if(userWantsToCancel(userInput)){
@@ -89,11 +102,20 @@ public class WorkShop {
       }
     }
 
-    maintenceQueue.enQueue(new Maintence((PartBase) partToChange));
+    maintenceQueue.enQueue(maintenceToDo);
   }
 
   private boolean userWantsToCancel(String str){
     return str.equals("0");
+  }
+
+  private float getServicePrice(PartBase part){
+    if(part instanceof OilFilter)
+      return oilChangeService;
+    else if (part instanceof Batery)
+      return baterySwapService;
+
+    return tireRenovationService;
   }
 
   private String maintenceManual(){
@@ -110,7 +132,7 @@ public class WorkShop {
     if(service == MaintenceType.BATERY_SWAP)
       return new Batery(chassis);
     else if(service == MaintenceType.OIL_CHANGE)
-      return new Oil(chassis);
+      return new OilFilter(chassis);
 
     return new Tire(chassis);
   }
@@ -121,16 +143,16 @@ public class WorkShop {
   }
 
   private float increaseServicePriceForHeavyVehicles(float input){
-    return input + (input * increaseTax);
+    return input + (input * notAvailableTax);
   }
 
   private String pricesOfServices(){
     String str = "";
                 
-    str += "\t\t_______ Service Price Table _______\n";
+    str += "\t\t_______ Service Price Table _______\n\n";
     str += "Batery Swap \t\tTire Renovation \tOil Change\n";
-    str += String.format("Car/Van: $ %.2f\t$ %.2f \t\t$ %.2f\n", baterySwapService, tireRenovationService, oilChangeService);
-    str += String.format("Truck/Bus: $ %.2f\t$ %.2f \t\t$ %.2f\n", increaseServicePriceForHeavyVehicles(baterySwapService), 
+    str += String.format("Car/Van: $%.2f\t$%.2f \t\t$%.2f\n", baterySwapService, tireRenovationService, oilChangeService);
+    str += String.format("Truck/Bus: $%.2f\t$%.2f \t\t$%.2f\n", increaseServicePriceForHeavyVehicles(baterySwapService), 
                                                                             increaseServicePriceForHeavyVehicles(tireRenovationService), 
                                                                             increaseServicePriceForHeavyVehicles(oilChangeService));
     str += "__________________________________________________________________\n";
@@ -140,11 +162,11 @@ public class WorkShop {
   private String pricesOfParts(){
     String str = "";
 
-    str += "\t\t_______ Part Price Table _______\n";
-    str += "Batery \t\t\t Tire \t\t Oil\n";
-    str += String.format("Car: $ %.2f \t\t$ %.2f \t $ %.2f\n", BateryType.CAR_BATERY.partPrice(), TireType.CAR_TIRE.partPrice(), OilType.OIL_GAS.partPrice());
-    str += String.format("Van: $ %.2f \t\t$ %.2f \t $ %.2f\n", BateryType.STATIONARY_BATERY.partPrice(), TireType.VAN_TIRE.partPrice(), OilType.OIL_DIESEL.partPrice());
-    str += String.format("Truck/Bus: $ %.2f\t$ %.2f \t$ %.2f\n", BateryType.STATIONARY_BATERY.partPrice(), TireType.TRUCK_TIRE.partPrice(), OilType.OIL_DIESEL.partPrice());
+    str += "\t\t_______ Part Price Table _______\n\n";
+    str += "Batery: \t\tTire: \t\t\tOil Filter:\n";
+    str += String.format("Car: $%.2f \t\t$%.2f \t\t$%.2f\n", BateryType.CAR_BATERY.partPrice(), TireType.CAR_TIRE.partPrice(), OilFilterType.OIL_GAS.partPrice());
+    str += String.format("Van: $%.2f \t\t$%.2f \t\t$%.2f\n", BateryType.STATIONARY_BATERY.partPrice(), TireType.VAN_TIRE.partPrice(), OilFilterType.OIL_DIESEL.partPrice());
+    str += String.format("Truck/Bus: $%.2f\t$%.2f \t\t$%.2f\n", BateryType.STATIONARY_BATERY.partPrice(), TireType.TRUCK_TIRE.partPrice(), OilFilterType.OIL_DIESEL.partPrice());
     str += "__________________________________________________________________\n";
   
     return str;
