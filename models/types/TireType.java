@@ -22,7 +22,7 @@ public enum TireType implements EnumPartsI{
 
   @Override
   public String partDesc(){
-    return this.desc + "Tire";
+    return this.desc + " Tire";
   }
 
   @Override

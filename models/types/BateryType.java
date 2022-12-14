@@ -21,7 +21,7 @@ public enum BateryType implements EnumPartsI {
 
   @Override
   public String partDesc(){
-    return this.desc + "Batery";
+    return this.desc + " Batery";
   }
 
   @Override

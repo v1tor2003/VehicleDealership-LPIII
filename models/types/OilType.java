@@ -22,7 +22,7 @@ public enum OilType implements EnumPartsI{
   @Override
   public String partDesc() {
     // TODO Auto-generated method stub
-    return this.desc + "Oil";
+    return this.desc + " Oil";
   }
 
   @Override

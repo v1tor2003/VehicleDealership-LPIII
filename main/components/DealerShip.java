@@ -38,10 +38,6 @@ public class DealerShip {
       System.out.println(showRoom.toString());
   }
 
-  public void orderVehicle(){
-  
-  }
-
   public void workShopStatus(){
     workShop.seeWorkFlow();
   }

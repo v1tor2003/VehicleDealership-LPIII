@@ -46,13 +46,14 @@ public class WorkShop {
       System.out.printf("WorkShop Is Full, Try Again In %s\n", maintenceQueue.first().getData().getTimeToFinish());
       return;
     }
+
     System.out.println("0. Back.");
     System.out.println(pricesOfServices());
     System.out.println(pricesOfParts());
-    System.out.println("To Start A New Maintence, Enter Your Vehicle Type And Desired Service.");
-    System.out.println("Such As: <Vehicle Type> <Service Name>.");
-    
+    System.out.println(maintenceManual());
+
     String userInput = keyBoardInput.nextLine();
+
     if(userWantsToCancel(userInput)){
       System.out.println("\n<- Going Back...\n");
       return;
@@ -69,29 +70,40 @@ public class WorkShop {
         System.out.println("\n<- Going Back...\n");
         return;
       }
+
       vehicleType = userInput.substring(0, userInput.indexOf(" "));
       serviceType = userInput.substring(userInput.indexOf(" "));  
     }
 
-    PartBase partToChange = setPartToChange(vehicleType, serviceType);
+    PartBase partToChange = setPart(vehicleType, serviceType);
 
     if(!stock.hasSpecificPart(partToChange)){
       System.out.println("There Is No Parts Like This In The Stock.");
       System.out.println("If You Wanna Continue The " + partToChange.toString() + "Will Cost $ "+ partToChange.noAvailablePartTax());
       System.out.println("(Press 0 For Cancel Or Any Key To Continue.)");
       userInput = keyBoardInput.nextLine();
-      if(userWantsToCancel(userInput));
+      
+      if(userWantsToCancel(userInput)){
+        System.out.println("\n<- Going Back...\n");
         return;
+      }
     }
 
-    maintenceQueue.enQueue(new Maintence(partToChange));
+    maintenceQueue.enQueue(new Maintence((PartBase) partToChange));
   }
 
   private boolean userWantsToCancel(String str){
     return str.equals("0");
   }
 
-  private PartBase setPartToChange(String vehicleType, String serviceType){
+  private String maintenceManual(){
+    String str = "";
+
+    str += "To Start A New Maintence, Enter Your Vehicle Type And Desired Service.\n";
+    return str += "Such As: <Vehicle Type> <Service Name>.\n";
+  }
+
+  private PartBase setPart(String vehicleType, String serviceType){
     ChassisType chassis = Services.getChassisType(vehicleType);
     MaintenceType service = Services.getMaintenceType(serviceType);
     
@@ -116,12 +128,12 @@ public class WorkShop {
     String str = "";
                 
     str += "\t\t_______ Service Price Table _______\n";
-    str += "Batery Swap \t\tTire Renovation \t\tOil Change\n";
-    str += String.format("Car/Van: $ %.2f\t$ %.2f \t\t $ %.2f\n", baterySwapService, tireRenovationService, oilChangeService);
-    str += String.format("Truck/Bus: $ %.2f\t$ %.2f \t\t $ %.2f\n", increaseServicePriceForHeavyVehicles(baterySwapService), 
+    str += "Batery Swap \t\tTire Renovation \tOil Change\n";
+    str += String.format("Car/Van: $ %.2f\t$ %.2f \t\t$ %.2f\n", baterySwapService, tireRenovationService, oilChangeService);
+    str += String.format("Truck/Bus: $ %.2f\t$ %.2f \t\t$ %.2f\n", increaseServicePriceForHeavyVehicles(baterySwapService), 
                                                                             increaseServicePriceForHeavyVehicles(tireRenovationService), 
                                                                             increaseServicePriceForHeavyVehicles(oilChangeService));
-    str += "__________________________________________________\n";
+    str += "__________________________________________________________________\n";
     return str;
   }
   
@@ -129,11 +141,11 @@ public class WorkShop {
     String str = "";
 
     str += "\t\t_______ Part Price Table _______\n";
-    str += "Batery \t\tTire \t\tOil\n";
-    str += String.format("Car: $ %.2f\t$ %.2f \t\t $ %.2f\n", BateryType.CAR_BATERY.partPrice(), TireType.CAR_TIRE.partPrice(), OilType.OIL_GAS.partPrice());
-    str += String.format("Van: $ %.2f\t$ %.2f \t\t $ %.2f\n", BateryType.STATIONARY_BATERY.partPrice(), TireType.VAN_TIRE.partPrice(), OilType.OIL_DIESEL.partPrice());
-    str += String.format("Truck/Bus: $ %.2f\t$ %.2f \t\t $ %.2f\n", BateryType.STATIONARY_BATERY.partPrice(), TireType.TRUCK_TIRE.partPrice(), OilType.OIL_DIESEL.partPrice());
-    str += "__________________________________________________\n";
+    str += "Batery \t\t\t Tire \t\t Oil\n";
+    str += String.format("Car: $ %.2f \t\t$ %.2f \t $ %.2f\n", BateryType.CAR_BATERY.partPrice(), TireType.CAR_TIRE.partPrice(), OilType.OIL_GAS.partPrice());
+    str += String.format("Van: $ %.2f \t\t$ %.2f \t $ %.2f\n", BateryType.STATIONARY_BATERY.partPrice(), TireType.VAN_TIRE.partPrice(), OilType.OIL_DIESEL.partPrice());
+    str += String.format("Truck/Bus: $ %.2f\t$ %.2f \t$ %.2f\n", BateryType.STATIONARY_BATERY.partPrice(), TireType.TRUCK_TIRE.partPrice(), OilType.OIL_DIESEL.partPrice());
+    str += "__________________________________________________________________\n";
   
     return str;
   }

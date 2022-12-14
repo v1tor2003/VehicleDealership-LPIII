@@ -26,6 +26,7 @@ public class Maintence {
   }
 
   public String toString(){
-    return String.format("Service Id: %d, Start Time: %s, Time Left: %s\n", this.part, this.startTime, TimeAsInt.diffTime(startTime, finishTime));
+    return String.format("Start Time: %s, Expetected Finish Time: %s\nService Desc Changing: %s", 
+                          this.startTime, this.finishTime, this.part);
   }
 }
