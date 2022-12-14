@@ -1,4 +1,4 @@
-package ds.interfaces;
+package ds.dsinterfaces;
 
 public interface StackI<T> {
   @Override
@@ -6,4 +6,5 @@ public interface StackI<T> {
   void push(T obj);
   T pop();
   T peek();
+  boolean contains(T obj);
 }

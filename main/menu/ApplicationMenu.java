@@ -1,7 +1,8 @@
 package main.menu;
 
-import main.CustomerRecords;
-import main.DealerShip;
+import main.components.CustomerRecords;
+import main.components.DealerShip;
+
 public class ApplicationMenu extends MenuBase{
   private DealerShipMenu dealerShipMenu;
   private CustomersMenu customersMenu;                                             
@@ -23,6 +24,6 @@ public class ApplicationMenu extends MenuBase{
     else if (option == 2)
       customersMenu.run();
     else if(option == 3)
-      System.out.printf(DealerShip.getDealerShipStatus());
+      System.out.printf("\n%s", DealerShip.getDealerShipStatus());
   }
 }

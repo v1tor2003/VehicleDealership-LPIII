@@ -1,6 +1,6 @@
 package main.menu;
 
-import main.CustomerRecords;
+import main.components.CustomerRecords;
 
 public class CustomersMenu extends MenuBase{
   private CustomerRecords refToManipulateCustomerRecords;

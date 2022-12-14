@@ -1,6 +1,6 @@
 package ds.queue;
 
-import ds.interfaces.QueueI;
+import ds.dsinterfaces.QueueI;
 import ds.singlyll.SinglyLinkedList;
 
 public class Queue<T> extends SinglyLinkedList<T> implements QueueI<T>{
@@ -23,6 +23,9 @@ public class Queue<T> extends SinglyLinkedList<T> implements QueueI<T>{
   
   @Override
   public String toString(){
+    if(isEmpty())
+      return "Queue Is Empty"; 
+
     return "Queue: \n" + super.toString();
   }
 }

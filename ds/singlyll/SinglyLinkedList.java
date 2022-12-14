@@ -1,6 +1,6 @@
 package ds.singlyll;
 
-import ds.interfaces.SinglyListI;
+import ds.dsinterfaces.SinglyListI;
 
 public class SinglyLinkedList<T> implements SinglyListI<T>{
   public static class Node<T> {

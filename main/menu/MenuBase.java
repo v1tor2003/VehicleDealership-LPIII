@@ -26,10 +26,6 @@ public class MenuBase{
     }
   }
 
-  //protected String showCurrentMenu(){
-  //  return "";
-  //}
-
   private String setMenuOptionsAsSingleString(String [] menuOptions){
     String str = "";
     for (String option : menuOptions)

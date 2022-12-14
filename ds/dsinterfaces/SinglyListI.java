@@ -1,4 +1,4 @@
-package ds.interfaces;
+package ds.dsinterfaces;
 
 import ds.singlyll.SinglyLinkedList.Node;
 

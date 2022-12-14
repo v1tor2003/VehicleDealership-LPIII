@@ -1,16 +1,17 @@
-package main;
+package main.components;
 
 import models.people.Customer;
 import models.vehicles.Vehicle;
 
-
 public class DealerShip {
   private static ShowRoom showRoom;
+  private static WorkShop workShop;
   private static float capital;
   private static int soldVehicles;
 
   public DealerShip(){
     showRoom = new ShowRoom();
+    workShop = new WorkShop();
     capital = 0;
     soldVehicles = 0;
   }
@@ -39,6 +40,14 @@ public class DealerShip {
 
   public void orderVehicle(){
   
+  }
+
+  public void workShopStatus(){
+    workShop.seeWorkFlow();
+  }
+
+  public void createMaintence(){
+    workShop.scheduleMaintence();
   }
 
   public static String getDealerShipStatus(){

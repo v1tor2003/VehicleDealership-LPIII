@@ -1,4 +1,4 @@
-package ds.interfaces;
+package ds.dsinterfaces;
 
 public interface QueueI<T> {
   @Override

@@ -1,4 +1,4 @@
-package main;
+package main.components;
 
 import java.util.Scanner;
 import ds.tree.Tree;

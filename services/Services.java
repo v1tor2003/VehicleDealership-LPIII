@@ -1,5 +1,10 @@
 package services;
 
+import models.types.BateryType;
+import models.types.ChassisType;
+import models.types.OilType;
+import models.types.TireType;
+
 public class Services {
   final private static int phoneSize = 10;
   final private static int cpfSize = 11;
@@ -59,5 +64,28 @@ public class Services {
 
   public static boolean isInInterval(int number, int start, int end){
     return number >= start && number <= end;
+  }
+
+  public static OilType getOilType(ChassisType chassis){
+    if(chassis == ChassisType.TRUCK_CHASSIS || chassis == ChassisType.VAN_CHASSIS)
+      return OilType.OIL_DIESEL;
+    
+    return OilType.OIL_GAS;
+  }
+
+  public static BateryType getBateryType(ChassisType chassis){
+    if(chassis == ChassisType.CAR_CHASSIS)
+      return BateryType.CAR_BATERY;
+    
+    return BateryType.STATIONARY_BATERY;
+  }
+
+  public static TireType getTireType(ChassisType chassis){
+    if(chassis == ChassisType.CAR_CHASSIS)
+      return TireType.CAR_TIRE;
+    else if(chassis == ChassisType.VAN_CHASSIS)
+      return TireType.VAN_TIRE;
+
+    return TireType.TRUCK_TIRE;
   }
 }

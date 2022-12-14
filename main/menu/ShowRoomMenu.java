@@ -1,6 +1,6 @@
 package main.menu;
 
-import main.DealerShip;
+import main.components.DealerShip;
 
 public class ShowRoomMenu extends MenuBase{
   private DealerShip dealerShipRef;

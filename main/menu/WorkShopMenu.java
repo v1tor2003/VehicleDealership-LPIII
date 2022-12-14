@@ -1,11 +1,11 @@
 package main.menu;
 
-import main.DealerShip;
+import main.components.DealerShip;
 
-public class MaintenceMenu extends MenuBase{
+public class WorkShopMenu extends MenuBase{
   private DealerShip dealerShipRef;
   
-  public MaintenceMenu(DealerShip refToDealerShipObj){
+  public WorkShopMenu(DealerShip refToDealerShipObj){
     super(false, 
           new String []{"Select:\n", "0. Back.\n", "1. Show WorkShop Status.\n", "2. Schedule Maintence\n"},
           "\n-> Entered Maintence.\n");
@@ -16,9 +16,9 @@ public class MaintenceMenu extends MenuBase{
   @Override
   protected void performAction(short option){
     super.performAction(option);
-    //if(option == 1)
-      //TODO
-    //else if (option == 2)
-      //maintenceMenu.run();
+    if(option == 1)
+      dealerShipRef.workShopStatus();
+    else if (option == 2)
+      dealerShipRef.createMaintence();
   }
 }

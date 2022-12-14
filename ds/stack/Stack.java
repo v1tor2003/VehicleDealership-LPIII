@@ -1,6 +1,6 @@
 package ds.stack;
 
-import ds.interfaces.StackI;
+import ds.dsinterfaces.StackI;
 import ds.singlyll.SinglyLinkedList;
 
 public class Stack<T> extends SinglyLinkedList<T> implements StackI<T>{
@@ -27,6 +27,11 @@ public class Stack<T> extends SinglyLinkedList<T> implements StackI<T>{
     Node<T> temp = super.removeFromStart();
     push(temp.getData());
     return temp.getData();
+  }
+
+  @Override
+  public boolean contains(T ref){
+    return super.contains(ref);
   }
 
   @Override

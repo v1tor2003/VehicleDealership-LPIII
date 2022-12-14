@@ -1,10 +1,10 @@
 package main.menu;
 
-import main.DealerShip;
+import main.components.DealerShip;
 
 public class DealerShipMenu extends MenuBase{
   private ShowRoomMenu showRoomMenu;
-  private MaintenceMenu maintenceMenu;
+  private WorkShopMenu maintenceMenu;
 
   public DealerShipMenu(DealerShip refToDealerShipObj){
     super (false, 
@@ -12,7 +12,7 @@ public class DealerShipMenu extends MenuBase{
            "\n-> Entered DealerShip.\n");
 
     showRoomMenu = new ShowRoomMenu(refToDealerShipObj);
-    maintenceMenu = new MaintenceMenu(refToDealerShipObj);
+    maintenceMenu = new WorkShopMenu(refToDealerShipObj);
   }
 
   @Override

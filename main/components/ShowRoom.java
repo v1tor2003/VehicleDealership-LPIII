@@ -1,4 +1,4 @@
-package main;
+package main.components;
 
 import ds.singlyll.SinglyLinkedList;
 import models.vehicles.Vehicle;

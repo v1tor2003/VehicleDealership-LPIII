@@ -1,5 +1,7 @@
 package main;
 
+import main.components.CustomerRecords;
+import main.components.DealerShip;
 import main.menu.ApplicationMenu;
 
 public class Main { 
