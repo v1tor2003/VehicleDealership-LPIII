@@ -7,12 +7,11 @@ import models.types.OilFilterType;
 import models.types.TireType;
 
 public class Services {
-  private static final String [] basicColors = {"red", "black", "white", "grey", "orange",
-  "blue", "green", "yellow", "pink"};
   private static final String [] availableVehicleType = {"car", "truck", "bus", "van"};
-  private static final String [] availableWorkShopServices = {"batery swap", "tire renovation", "oil change"};
-  final private static int phoneSize = 10;
-  final private static int cpfSize = 11;
+  private static final String [] availableWorkShopServices = {"batery swap", "tire renew", "oil change"};
+  private final static int phoneSize = 10;
+  private final static int cpfSize = 11;
+  private final static int possibleSimpleTruckTiresQuantity [] = {6, 8, 10};
 
   public static boolean validateRandName(String str){
     return str != null;
@@ -43,11 +42,6 @@ public class Services {
         return false;
     }
     return true;
-  }
-  
-  public static boolean validateColor(String color){
-  
-    return validateStringInputField(color, basicColors);
   }
 
   public static String concatenateArrayOfStrings(String [] arr){
@@ -124,6 +118,13 @@ public class Services {
   public static boolean validateWorkShopServiceChoice(String str){
     
     return validateStringInputField(str, availableWorkShopServices);
+  }
+
+  public static boolean validateTruckTiresQuantity(int input){
+    for(int possibility : possibleSimpleTruckTiresQuantity)
+      if(input == possibility)
+        return true;
+    return false;
   }
 
 }

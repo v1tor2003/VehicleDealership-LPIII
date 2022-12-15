@@ -1,9 +1,11 @@
 package main.components;
 
-import models.people.Customer;
+import java.util.Scanner;
+import ds.stack.Stack;
 import models.vehicles.Vehicle;
 
 public class DealerShip {
+  private static Scanner keyBoardInput = new Scanner(System.in);
   private static ShowRoom showRoom;
   private static WorkShop workShop;
   private static float capital;
@@ -16,19 +18,51 @@ public class DealerShip {
     soldVehicles = 0;
   }
 
-  public void sellVehicle(Vehicle vehicleToSell){
-    if(showRoom.findInNew(vehicleToSell) || showRoom.findInUsed(vehicleToSell)){
-      soldVehicles += 1;
-      capital += vehicleToSell.getPrice();
-      showRoom.sell(vehicleToSell);
-    }else{
-      System.out.println("Vehicle Not Found.");
+  public void sellNewVehicle(){
+    if(!showRoom.hasNewVehicle()){
+      System.out.println("No New Vehicles Available Right Now.");
+      return;
     }
+    System.out.println("-> Selling New Vehicle.");
+    System.out.println(showRoom.getNewVehiclesList());
+    System.out.println("Select The Respective Vehicle Number:");
+    int input = getVehicleToSell(showRoom.newVehiclesQuantity());
+    Vehicle sold = showRoom.findOnNew(input);
+    showRoom.sell(sold);
+    System.out.println(String.format("Vehicle Has Been Sold: \n%s\n", sold));
   }
   
-  public void buyUsedCarFromCustomer(Customer customer){
-    System.out.println("-> Buying Used Car.");
+  public void sellUsedVehicle(){
+    if(!showRoom.hasUsedVehicle()){
+      System.out.println("No Used Vehicles Available Right Now.");
+      return;
+    }
+    System.out.println("-> Selling Used Vehicle.");
+    System.out.println(showRoom.getUsedVehiclesList());
+    System.out.println("Select The Respective Vehicle Number:");
+    int input =getVehicleToSell(showRoom.usedVehiclesQuantity());
+    Vehicle sold = showRoom.findOnUsed(input);
+    showRoom.sell(sold);
+    System.out.println(String.format("Vehicle Has Been Sold: \n%s\n", sold));
+  }
 
+  private int getVehicleToSell(int size){
+    int input = 0;
+    boolean exit = false;
+
+    do{
+      if(keyBoardInput.hasNextInt()){
+        input = keyBoardInput.nextInt();
+
+        if(input >= 0 && input < size) exit = true;
+      }else{
+        System.out.println("Invalid Input, Try Again.");
+        exit = false;
+        keyBoardInput.next();
+      }
+    }while(!exit);
+
+    return input;
   }
 
   public void showRoomVehicles(){
@@ -52,26 +86,3 @@ public class DealerShip {
   }
 }
 
-// list vehicles , we would say, Trucks: Truck.qntd, Cars: Cars.qntd, ... 
-
-
-// menu
-//0. exit
-//1. DelaerShip
-  //-ShowRoom
-    //show()
-    //add()
-
-  //-Oficina
-    //showQueue()
-// 2. sell
-  // sell car
-  // sell truck
-// 3. custoer
-  // show()
-  // add()
-  // find
-  // sellUsedCar()
-
-// new Menu
-// var.run()

@@ -7,7 +7,7 @@ public class ShowRoomMenu extends MenuBase{
   
   public ShowRoomMenu(DealerShip refToDealerShipObj){
     super(false, 
-          new String [] {"Select:\n", "0. Back.\n", "1. Show Available Vehicles.\n", "2. Buy New Vehicle\n", "3. Buy Used Vehicle\n"},
+          new String [] {"Select:\n", "0. Back.\n", "1. Show Available Vehicles.\n", "2. Sell New Vehicle\n", "3. Sell Used Vehicle\n"},
           "\n-> Entered Show Room.\n");
 
     dealerShipRef = refToDealerShipObj;
@@ -17,9 +17,10 @@ public class ShowRoomMenu extends MenuBase{
   protected void performAction(short option){
     super.performAction(option);
     if(option == 1)
-      dealerShipRef.showRoomVehicles();
-      
-    //else if (option == 2)
-      //maintenceMenu.run();
+      dealerShipRef.showRoomVehicles();  
+    else if (option == 2)
+      dealerShipRef.sellNewVehicle();
+    else
+      dealerShipRef.sellUsedVehicle();
   }
 }

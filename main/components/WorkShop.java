@@ -17,12 +17,13 @@ import services.Services;
 public class WorkShop {
   private static Scanner keyBoardInput = new Scanner(System.in);
   private final static int workShopSpace = 5;
+  private final static int defaultQuantityToChange = 1;
   private static Inventory stock;
   private static Queue<Maintence> maintenceQueue;
   private static final float oilChangeService = 50;
   private static final float baterySwapService = 100;
   private static final float tireRenovationService = 200;
-  private static final float notAvailableTax = 0.25f;
+  private static final float notAvailablePartTax = 0.25f;
 
   public WorkShop(){
     stock = new Inventory();
@@ -41,63 +42,52 @@ public class WorkShop {
     System.out.println("Maintence "+ maintenceQueue.toString() + "\n");
   }
 
+  private String showMaintenceInfo(){
+    return "0. Back" + pricesOfServices() + pricesOfParts() + maintenceInstructions();
+  }
+
   public void scheduleMaintence(){
-    if(isFull() && tryFreeSpace() == null){
-      System.out.printf("WorkShop Is Full, Try Again In %s\n", maintenceQueue.first().getData());
+    tryFreeSpace();
+    if(isFull()){
+      System.out.printf("WorkShop Is Full, Try Again In %s\n", maintenceQueue.first().getData().getTimeLeft());
       return;
     }
 
-    System.out.println("0. Back.");
-    System.out.println(pricesOfServices());
-    System.out.println(pricesOfParts());
-    System.out.println(maintenceManual());
+    System.out.println(showMaintenceInfo());
 
-    String userInput = keyBoardInput.nextLine();
-
-    if(userWantsToCancel(userInput)){
-      System.out.println("\n<- Going Back...\n");
-      return;
-    }
+    String exitStringInput = "0";
+    String userInputs[] = getInfo();
+    String vehicleType = userInputs[0];
+    String serviceType = userInputs[1];
     
-    String vehicleType = userInput.substring(0, userInput.indexOf(" "));
-    String serviceType = userInput.substring(userInput.indexOf(" ") + 1);
-    
-    while(!validateUserInput(vehicleType, serviceType)){
-      System.out.println("Invalid Input, Try Again.");
-      userInput = keyBoardInput.nextLine();
+    ChassisType chassis = Services.getChassisType(vehicleType);
 
-      if(userWantsToCancel(userInput)){
-        System.out.println("\n<- Going Back...\n");
-        return;
-      }
-
-      vehicleType = userInput.substring(0, userInput.indexOf(" "));
-      serviceType = userInput.substring(userInput.indexOf(" "));  
-    }
-
+    int partQuantityToChange = 0;
     PartBase partToChange = setPart(vehicleType, serviceType);
     float servicePrice = getServicePrice(partToChange);
     Maintence maintenceToDo = new Maintence(partToChange, servicePrice);
     float oldPrice = maintenceToDo.getPartPrice();
 
+    if(maintenceToDo.getPart() instanceof Tire && chassis == ChassisType.TRUCK_CHASSIS)
+      partQuantityToChange = getTruckTiresQuantity();
+    else if(maintenceToDo.getPart() instanceof Tire && (chassis == ChassisType.VAN_CHASSIS || chassis == ChassisType.CAR_CHASSIS))
+      partQuantityToChange = 4;
+    else
+      partQuantityToChange = defaultQuantityToChange;
+
     if(!stock.hasSpecificPart(partToChange)){
-      maintenceToDo.setNewPartPrice(maintenceToDo.getPartPrice() + maintenceToDo.getPartPrice() * notAvailableTax);
+      maintenceToDo.setNewPartPrice(partQuantityToChange * (maintenceToDo.getPartPrice() + maintenceToDo.getPartPrice() * notAvailablePartTax));
       System.out.println("There Are No Parts Like This In The Stock.");
-      System.out.println("If You Wanna Continue, The " + maintenceToDo.getPartName() + oldPrice + ", Will Cost Now $ " + maintenceToDo.getPartPrice() + ".");
-      System.out.println("(Press Any Key To Confirm Or 0 To Cancel.)");
-      userInput = keyBoardInput.nextLine();
-      
-      if(userWantsToCancel(userInput)){
-        System.out.println("\n<- Going Back...\n");
+      System.out.println("If You Wanna Continue, The " + maintenceToDo.getPartName() + " ($"+oldPrice+") x" +partQuantityToChange + 
+                          " Will Cost Now $ " + maintenceToDo.getPartPrice() + ".");
+      if(getUserFinalInput().equals("0")){
+        maintenceToDo = null;
         return;
-      }
+      } 
     }else{
-      System.out.println("Setting Up Maintence For The " + partToChange.toString() + ".");
-      System.out.println("(Press Any Key To Confirm Or 0 To Cancel.)");
-      userInput = keyBoardInput.nextLine();
-      
-      if(userWantsToCancel(userInput)){
-        System.out.println("\n<- Going Back...\n");
+      System.out.println("Setting Up Maintence For The " + maintenceToDo.getPartName() + " ($"+maintenceToDo.getPartPrice()+") x" +partQuantityToChange + ".");
+      if(getUserFinalInput().equals(exitStringInput)){
+        maintenceToDo = null;
         return;
       }
     }
@@ -105,8 +95,71 @@ public class WorkShop {
     maintenceQueue.enQueue(maintenceToDo);
   }
 
-  private boolean userWantsToCancel(String str){
-    return str.equals("0");
+  private int getTruckTiresQuantity(){
+    int tiresQuantity = 0;
+    boolean exit = false;
+
+    System.out.println("Please Inform How Many Tires Does Your Truck/Bus Have");
+    do{
+      if(keyBoardInput.hasNextInt()){
+        tiresQuantity = keyBoardInput.nextInt();
+
+        if(Services.validateTruckTiresQuantity(tiresQuantity)) exit = true;
+      }else{
+        System.out.println("Invalid Input, Try Again.");
+        exit = false;
+        keyBoardInput.next();
+      }
+    }while(!exit);
+
+    return tiresQuantity;
+  }
+
+  private String getUserFinalInput(){
+    boolean exit = false;
+    String userInput = "";
+    System.out.println("(Press Any Key To Confirm Or 0 To Cancel.)");
+    do{
+      if(keyBoardInput.hasNextLine()){
+        userInput = keyBoardInput.nextLine();
+        exit = true;
+      }else{
+        System.out.println("Invalid Input, Try Again.");
+        exit = false;
+        keyBoardInput.next();
+      }
+    }while(!exit);
+
+    return userInput;
+  }
+
+  private String [] getInfo(){
+    boolean exit = false;
+    
+    String userInput = "";
+    String inputParts [] = {"", ""};
+    
+    do{
+      if(keyBoardInput.hasNextLine()){
+        userInput = keyBoardInput.nextLine();
+
+        try{
+          inputParts[0] = userInput.substring(0, userInput.indexOf(" "));
+          inputParts[1] = userInput.substring(userInput.indexOf(" ") + 1);
+        }catch(Exception e){
+          System.out.println("Invalid Input, Try Again");
+        }
+
+        if(validateUserInput(inputParts[0], inputParts[1])) exit = true;
+        
+      }else{
+        System.out.println("Invalid Input, Try Again.");
+        exit = false;
+        keyBoardInput.next();
+      }
+    }while(!exit);
+    
+    return inputParts;
   }
 
   private float getServicePrice(PartBase part){
@@ -118,7 +171,7 @@ public class WorkShop {
     return tireRenovationService;
   }
 
-  private String maintenceManual(){
+  private String maintenceInstructions(){
     String str = "";
 
     str += "To Start A New Maintence, Enter Your Vehicle Type And Desired Service.\n";
@@ -143,18 +196,18 @@ public class WorkShop {
   }
 
   private float increaseServicePriceForHeavyVehicles(float input){
-    return input + (input * notAvailableTax);
+    return input + (input * notAvailablePartTax);
   }
 
   private String pricesOfServices(){
     String str = "";
                 
     str += "\t\t_______ Service Price Table _______\n\n";
-    str += "Batery Swap \t\tTire Renovation \tOil Change\n";
+    str += "Batery Swap \t\tTire Renew \tOil Change\n";
     str += String.format("Car/Van: $%.2f\t$%.2f \t\t$%.2f\n", baterySwapService, tireRenovationService, oilChangeService);
     str += String.format("Truck/Bus: $%.2f\t$%.2f \t\t$%.2f\n", increaseServicePriceForHeavyVehicles(baterySwapService), 
-                                                                            increaseServicePriceForHeavyVehicles(tireRenovationService), 
-                                                                            increaseServicePriceForHeavyVehicles(oilChangeService));
+                                                                        increaseServicePriceForHeavyVehicles(tireRenovationService), 
+                                                                        increaseServicePriceForHeavyVehicles(oilChangeService));
     str += "__________________________________________________________________\n";
     return str;
   }
@@ -172,13 +225,10 @@ public class WorkShop {
     return str;
   }
 
-  private Maintence tryFreeSpace(){
-    Maintence firstInQueue = maintenceQueue.first().getData();
-
-    if(firstInQueue.isDone())
-      return maintenceQueue.deQueue();
-
-    return null;
+  private void tryFreeSpace(){
+    while(!maintenceQueue.isEmpty())
+      if(maintenceQueue.first().getData().isDone())
+        maintenceQueue.deQueue();
   }
 
   private boolean hasFreeSpace(){

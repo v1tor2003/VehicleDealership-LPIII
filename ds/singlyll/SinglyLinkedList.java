@@ -31,6 +31,36 @@ public class SinglyLinkedList<T> implements SinglyListI<T>{
     this.size = 0;
   }
 
+  public Node<T> findNodeAtIndex(int ref){
+    int i = 0;
+    Node<T> currentNode = this.head;
+     
+    while(i != ref){
+      i++;
+      currentNode = currentNode.next;
+    }
+    
+    return currentNode;
+  }
+
+  public String showListWithIndex(){
+    if(isEmpty())
+      return "List is empty";
+    else{
+      Node<T> currentNode = this.head;
+      String list = "\n";
+      int i = 0;
+      while(currentNode.next != null){
+        list += String.format("%d - %s\n\n", i, currentNode);
+        i++;
+        //list += i + currentNode + "\n";
+        currentNode = currentNode.next;
+      }
+      list += String.format("%d - %s\n\n", i, currentNode);
+      return list;
+    }
+  }
+
   @Override
   public int size(){
     return this.size;
@@ -219,12 +249,12 @@ public class SinglyLinkedList<T> implements SinglyListI<T>{
       return "List is empty";
     else{
       Node<T> currentNode = this.head;
-      String list = "";
+      String list = "\n";
       while(currentNode.next != null){
-        list += currentNode + "\n";
+        list += String.format("%s\n", currentNode);
         currentNode = currentNode.next;
       }
-      list += currentNode;
+      list += String.format("%s\n", currentNode);
       return list;
     }
   }

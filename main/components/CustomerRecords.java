@@ -10,34 +10,32 @@ import services.Data;
 import services.Services;
 public class CustomerRecords{   
   private static Tree <Customer> records;
-  private static Scanner keyboardInput=new Scanner(System.in);
-  private static String userInput;
+  private static Scanner keyBoardInput = new Scanner(System.in);
 
   public CustomerRecords(){
-    records=new Tree<>();
+    records = new Tree<>();
   }
-
   
-   public void add(){
+  public void add(){
     //Customer customerToAdd= fillCustomerCredentials();
-    int i=0;
-    Customer c1 = new Customer("pedro", "affonso", "3", 10,11,2002,"pasmarques@gmail.com", "7381191894");
-    Customer c2 = new Customer("pedro", "affonso", "0", 10,11,2001,"pasmarques@gmail.com", "7381191894");
-    Customer[] vet= new Customer[2];
-    vet[0]=c1;
-    vet[1]=c2;
+  int i=0;
+  Customer c1 = new Customer("pedro", "affonso", "3", 10,11,2002,"pasmarques@gmail.com", "7381191894");
+  Customer c2 = new Customer("pedro", "affonso", "0", 10,11,2001,"pasmarques@gmail.com", "7381191894");
+  Customer[] vet= new Customer[2];
+  vet[0]=c1;
+  vet[1]=c2;
     
 
-    while(i<2){
-      if(!records.contaisKey(records.getRoot(),vet[i].getCPF())){
-        records.insertBT(records.getRoot(),vet[i]);
-      }
-      else{
-        System.out.println("You cannot duplicate a Customer, Try again");
-        break;
-      }
-      i++;
+  while(i<2){
+    if(!records.contaisKey(records.getRoot(),vet[i].getCPF())){
+      records.insertBT(records.getRoot(),vet[i]);
     }
+    else{
+      System.out.println("You cannot duplicate a Customer, Try again");
+     break;
+    }
+    i++;
+   }
   }
   
   /*
@@ -56,55 +54,106 @@ public class CustomerRecords{
     if(records.contains(records.getRoot(),customer))
       records.removeBT(customer);
     else{
-      System.out.println("There is no such record.");
+      System.out.println("There Is No Such Record.");
     }
   }
 
   public Customer fillCustomerCredentials(){
-    String firstName;
-    String lastName;
-    String cpfInput;
-    int dayInput;
-    int monthInput; 
-    int yearInput;
-    String emailInput;
-    String phoneInput;
-
-    System.out.println("Type your first name: ");
-    firstName= keyboardInput.nextLine();
-    //keyboardInput.close();
-
-    System.out.println("Type your last name: ");
-    lastName = keyboardInput.nextLine();
-    //keyboardInput.close();
-
-    System.out.println("Type your cpf: ");
-    cpfInput = keyboardInput.nextLine();
-    //keyboardInput.close();
-
-    System.out.println("Type the day you was born: ");
-    dayInput= keyboardInput.nextInt();
-    //keyboardInput.close();
-
-    System.out.println("Type the month you was born: ");
-    monthInput= keyboardInput.nextInt();
-    //keyboardInput.close();
-
-    System.out.println("Type the year you was born: ");
-    yearInput= keyboardInput.nextInt();
-    //keyboardInput.close();
-
-    System.out.println("Type your email: ");
-    emailInput= keyboardInput.nextLine();
-    //keyboardInput.close();
-
-    System.out.println("Type your cell phone number: ");
-    phoneInput= keyboardInput.nextLine();
-    //keyboardInput.close();
-    keyboardInput.close();
-    return new Customer(firstName, lastName, cpfInput, dayInput, monthInput, yearInput, emailInput, phoneInput);
-
+    String firstName = getStringInput("Enter Customer First Name.");
+    String lastName = getStringInput("Enter Customer Last Name.");
+    String cpfInput = getUserInputCPF();
+    System.out.println("Enter The Date You Was Born dd/mm/yyyy.");
+    String birthDateInput = keyBoardInput.nextLine();
+    String bdAsArray [] = birthDateInput.split("/");
+    Data birthDate = new Data(Integer.parseInt(bdAsArray[0]), Integer.parseInt(bdAsArray[1]), 
+                              Integer.parseInt(bdAsArray[2]));
+   
+    String emailInput = getUserInputEmail("Enter Customer Email.");
+    String phoneInput= getUserInputPhone("Enter Customer Phone.");
+    return new Customer(firstName, lastName, cpfInput, birthDate.getDia(), birthDate.getMes(), birthDate.getAno(), emailInput, phoneInput);
   }
+
+  private String getUserInputEmail(String label){
+    String input = "";
+    boolean exit = false;
+
+    System.out.println(label);
+    do{
+      if(keyBoardInput.hasNextLine()){
+        input = keyBoardInput.nextLine();
+
+        if(Services.validateEmail(input)) exit = true;
+      }else{
+        System.out.println("Invalid Input, Try Again.");
+        exit = false;
+        keyBoardInput.next();
+      }
+    }while(!exit);
+
+    return input;
+  }
+
+  private String getUserInputPhone(String label){
+    String input = "";
+    boolean exit = false;
+
+    System.out.println(label);
+    do{
+      if(keyBoardInput.hasNextLine()){
+        input = keyBoardInput.nextLine();
+
+        if(Services.validatePhoneNumber(input)) exit = true;
+      }else{
+        System.out.println("Invalid Input, Try Again.");
+        exit = false;
+        keyBoardInput.next();
+      }
+    }while(!exit);
+
+    return input;
+  }
+
+
+  private String getStringInput(String label){
+    String input = "";
+    boolean exit = false;
+
+    System.out.println(label);
+    do{
+      if(keyBoardInput.hasNextLine()){
+        input = keyBoardInput.nextLine();
+
+        if(Services.validateRandName(input)) exit = true;
+      }else{
+        System.out.println("Invalid Input, Try Again.");
+        exit = false;
+        keyBoardInput.next();
+      }
+    }while(!exit);
+
+    return input;
+  }
+
+  private String getUserInputCPF(){
+    String input = "";
+    boolean exit = false;
+
+    System.out.println("Please Enter Required Information.");
+    do{
+      if(keyBoardInput.hasNextLine()){
+        input = keyBoardInput.nextLine();
+
+        if(Services.validateRandName(input)) exit = true;
+      }else{
+        System.out.println("Invalid Input, Try Again.");
+        exit = false;
+        keyBoardInput.next();
+      }
+    }while(!exit);
+
+    return input;
+  }
+
 
   public void showCustomers(){
     records.printTree(records.getRoot());
@@ -129,7 +178,7 @@ public class CustomerRecords{
 
     System.out.println("Type your name in format: FirstName + LastName");
 
-    userInput= keyboardInput.nextLine();
+    userInput= keyBoardInput.nextLine();
 
     String firstName = userInput.substring(0, userInput.indexOf(" "));
     String lastName= userInput.substring(userInput.indexOf(" ") + 1);
@@ -144,24 +193,24 @@ public class CustomerRecords{
     final String arrayCpfAndNumber[] = new String[2];
 
     System.out.println("Type your cpf: ");
-    userInput=keyboardInput.nextLine();
+    userInput=keyBoardInput.nextLine();
 
     while(Services.validateCPF(userInput)){
       System.out.println("Invalid cpf, try again typing in format ###.###.###.##, without dots");
       System.out.println("Type your cpf again: ");
-      //keyboardInput.close();
-      userInput=keyboardInput.nextLine();
+      //keyBoardInput.close();
+      userInput=keyBoardInput.nextLine();
     }
     arrayCpfAndNumber[0]=userInput;
 
     System.out.println("Type your phone number: ");
-    userInput=keyboardInput.nextLine();
+    userInput=keyBoardInput.nextLine();
 
     while(Services.validatePhoneNumber(userInput)){
     System.out.println("Invalid phone number, try again typing in format ##-#######, without -");
     System.out.println("Type your phone number again: ");
-    //keyboardInput.close();
-    userInput=keyboardInput.nextLine();
+    //keyBoardInput.close();
+    userInput=keyBoardInput.nextLine();
     }
     arrayCpfAndNumber[1]=userInput;
     return arrayCpfAndNumber;
@@ -174,7 +223,7 @@ public class CustomerRecords{
     final int bornDateArray[]=new int[3];
 
     System.out.println("Type your born date in format DD/MM/YYYY: ");
-    userInput=keyboardInput.nextLine();
+    userInput=keyBoardInput.nextLine();
     bornDateArray[0]= Integer.parseInt(userInput.substring(0, 2));
     bornDateArray[1]= Integer.parseInt(userInput.substring(3, 5));
     bornDateArray[2]= Integer.parseInt(userInput.substring(6, 10));
@@ -190,11 +239,11 @@ public class CustomerRecords{
   private String fillEmailInput(){
 
     System.out.println("Type your email: ");
-    userInput=keyboardInput.nextLine();
+    userInput=keyBoardInput.nextLine();
 
     while(!Services.validateEmail(userInput)){
       System.out.println("Invalid email, type again:");
-      userInput=keyboardInput.nextLine();
+      userInput=keyBoardInput.nextLine();
     }
     return userInput;
   }

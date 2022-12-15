@@ -41,7 +41,6 @@ public class MenuBase{
         System.out.println("\n<- Exiting Programm...\n");
       else
         System.out.println("\n<- Going back...\n");
-      //keyBoardInput.close();
     }
   }
 

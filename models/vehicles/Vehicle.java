@@ -17,6 +17,10 @@ abstract public class Vehicle {
       this.brand = brand;
       this.model = model;
       this.color = color;
+    }else{
+      this.brand = "Unknown";
+      this.model = "Unknown";
+      this.color = "Unknown";
     }
 
     if(validateFabYear(fab))
@@ -39,7 +43,7 @@ abstract public class Vehicle {
 
   private boolean validateVehicle(String brand, String model, String color){
 
-    return Services.validateRandName(brand) && Services.validateRandName(model) && Services.validateColor(color);
+    return Services.validateRandName(brand) && Services.validateRandName(model) && Services.validateRandName(color);
   }
 
   private boolean validatePrice(float price){
@@ -65,7 +69,6 @@ abstract public class Vehicle {
       changeVehicleFabYear(fabrication);
     else
       System.out.println("Cannot change a valid fabYear.");
-  
   } 
 
   private void changeVehicleFabYear(int fabrication){
@@ -91,6 +94,18 @@ abstract public class Vehicle {
 
   public int getMileage(){
     return this.mileage;
+  }
+
+  public String getBrandName(){
+    return this.brand;
+  }
+
+  public String getColor(){
+    return this.color;
+  }
+
+  public String getVehicleType(){
+    return this.vehicleType.getChassisDesc();
   }
 
   public String toString(){
