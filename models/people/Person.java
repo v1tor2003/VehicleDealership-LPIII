@@ -25,7 +25,7 @@ public class Person{
     this(firstName, lastName, cpf,birthDate.getDia(), birthDate.getMes(), birthDate.getAno());
   }
 
-  private String getFullName(){
+  protected String getFullName(){
     return this.getFirstName() + " " + this.getLastName();
   }
 
@@ -41,7 +41,7 @@ public class Person{
     return this.birthDate;
   }
   
-  protected String getCPF()
+  public String getCPF()
   {
     return this.cpf;
   }
@@ -54,7 +54,7 @@ public class Person{
     return daysSinceBirth / yearDefaultSize;
   }
 
-  public int getAge(){
+  protected int getAge(){
     return this.age;
   }
 
