@@ -3,7 +3,7 @@ package services;
 import models.types.BateryType;
 import models.types.ChassisType;
 import models.types.MaintenceType;
-import models.types.OilType;
+import models.types.OilFilterType;
 import models.types.TireType;
 
 public class Services {
@@ -83,11 +83,11 @@ public class Services {
     return null;
   }
 
-  public static OilType getOilType(ChassisType chassis){
+  public static OilFilterType getOilType(ChassisType chassis){
     if(chassis == ChassisType.TRUCK_CHASSIS || chassis == ChassisType.VAN_CHASSIS)
-      return OilType.OIL_DIESEL;
+      return OilFilterType.OIL_DIESEL;
     
-    return OilType.OIL_GAS;
+    return OilFilterType.OIL_GAS;
   }
 
   public static BateryType getBateryType(ChassisType chassis){

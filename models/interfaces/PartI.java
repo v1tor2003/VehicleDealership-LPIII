@@ -5,4 +5,5 @@ public interface PartI {
   String toString();
   float getPartPrice();
   float noAvailablePartTax();
+  void setPrice(float f);
 }

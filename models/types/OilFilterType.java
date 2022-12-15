@@ -2,14 +2,14 @@ package models.types;
 
 import models.interfaces.EnumPartsI;
 
-public enum OilType implements EnumPartsI{
+public enum OilFilterType implements EnumPartsI{
   OIL_GAS(100, "Gas Engine"),
   OIL_DIESEL(200, "Diesel Engine");
 
   final float price;
   final String desc;
 
-  OilType (float price, String desc){
+  OilFilterType (float price, String desc){
     this.price = price;
     this.desc = desc;
   }
@@ -22,7 +22,7 @@ public enum OilType implements EnumPartsI{
   @Override
   public String partDesc() {
     // TODO Auto-generated method stub
-    return this.desc + " Oil";
+    return this.desc + " Oil Filter";
   }
 
   @Override
