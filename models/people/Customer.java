@@ -62,16 +62,24 @@ public class Customer extends Person implements Comparable<Customer>{
 
   @Override
   public String toString(){
-    return String.format("%sEmail: %s\nPhone: %s\nVehicles Owned: %d\n", super.toString()
+    return String.format("%sEmail: %s\nPhone: %s\n", super.toString()
                                   , this.email, this.phone,this.getOwnedVehiclesQuantity());
   }
 
+  
   @Override
-  public int compareTo(Customer obj) {
-    // TODO Auto-generated method stub
-    return this.getCPF().compareTo(obj.getCPF());
+  public int compareTo(Customer obj){
+    if(obj.getFullName().compareTo(this.getFullName())==0){
+      return 0;
+    }
+    else if(obj.getFullName().compareTo(this.getFullName())==1){
+      return -1;
+    }
+    else 
+    {
+      return 1;
+    }
   }
-
   private boolean equalsLocal(Customer obj)
   {
     return compareTo(obj)==0;

@@ -9,8 +9,8 @@ import models.types.TireType;
 public class Services {
   private static final String [] availableVehicleType = {"car", "truck", "bus", "van"};
   private static final String [] availableWorkShopServices = {"batery swap", "tire renew", "oil change"};
-  private final static int phoneSize = 10;
-  private final static int cpfSize = 11;
+  private final static int phoneSize = 11;
+  private final static int cpfSize = 12;
   private final static int possibleSimpleTruckTiresQuantity [] = {6, 8, 10};
 
   public static boolean validateRandName(String str){

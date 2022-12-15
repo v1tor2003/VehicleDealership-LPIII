@@ -13,8 +13,8 @@ import models.vehicles.Van;
 import models.vehicles.Vehicle;
 
 public class ShowRoom {
-  String newVehiclesFile = new String("C:\\Users\\vitor\\VehicleDealership-LPIII\\services\\db\\vehicleRecord\\newVehicles.CSV");
-  String usedVehiclesFile = new String("C:\\Users\\vitor\\VehicleDealership-LPIII\\services\\db\\vehicleRecord\\usedVehicles.CSV");
+  String newVehiclesFile = new String("C:\\Users\\Pedro Affonso\\Documents\\VehicleDealership-LPIII\\services\\db\\vehicleRecord\\newVehicles.CSV");
+  String usedVehiclesFile = new String("C:\\Users\\Pedro Affonso\\Documents\\VehicleDealership-LPIII\\services\\db\\vehicleRecord\\usedVehicles.CSV");
 
   private static SinglyLinkedList<Vehicle> newVehicles = new SinglyLinkedList<>();
   private static SinglyLinkedList<Vehicle> usedVehicles = new SinglyLinkedList<>();

@@ -73,24 +73,21 @@ public class Tree<T extends Comparable<T>> {
     printInOrder(currentNode);
   }
 
-  public boolean findKey(Node<T> currentNode, T value) {
-    if (currentNode.getKey().compareTo(value)==0) {
-    	return true;
-  	} else if (currentNode.getKey().compareTo(value) == 1) {
-    	if (currentNode.getLeft() == null) {
-      	return false;
-    	} else {
-        return (findKey(currentNode.getLeft(), value));
-      }
-    } else if (currentNode.getKey().compareTo(value) == -1) {
-        if (currentNode.getRight() == null) {
-        return false;
-      } else {
-        return (findKey(currentNode.getRight(), value));
-      }
-    }
-    return false;
-  }
+  private Node<T> findKey(Node<T> currentNode, String name){
+		if(currentNode==null){
+			return null;
+		}
+		if(currentNode.getKey().equals(name)){
+			return currentNode;
+		}
+
+		Node <T> nodeAux=new Node<T>();
+		nodeAux=findKey(currentNode.getLeft(), name);
+		if(nodeAux!=null){
+			return nodeAux;
+		}
+		return findKey(currentNode.getRight(), name);
+	}
 
   protected Node<T> findNode(Node<T> currentNode, T value){
 		if(currentNode==null){
@@ -108,31 +105,12 @@ public class Tree<T extends Comparable<T>> {
 		return findNode(currentNode.getRight(), value);
 	}
 
-  private Node<T> findNode(Node<T> currentNode, String value){
-		if(currentNode==null){
-			return null;
-		}
-		if(currentNode.getKey().equals(value)){
-			return currentNode;
-		}
-
-		Node <T> nodeAux=new Node<T>();
-		nodeAux=findNode(currentNode.getLeft(), value);
-		if(nodeAux!=null){
-			return nodeAux;
-		}
-		return findNode(currentNode.getRight(), value);
-	}
-
-  public boolean contaisKey(Node<T> currentNode, String cpf){
-		if(findNode(currentNode, cpf)!=null){
-      return true;
-    }
-    return false; //ja existe cpf
-	}
-
   public boolean contains(Node<T> currentNode, T value){
     return !(findNode(currentNode, value) == null);
+  }
+
+  public boolean containsKey(Node<T> currentNode, String value){
+    return !(findKey(currentNode, value) == null);
   }
 
   private boolean hasTwoChild(Node<T> currentNode){
@@ -168,6 +146,34 @@ public class Tree<T extends Comparable<T>> {
 
   private Node<T> removeNode(Node<T> currentNode, T value) {
     if (contains(currentNode, value)){
+      if(currentNode.getKey().compareTo(value) == 1) {
+        currentNode.setLeft(removeNode(currentNode.getLeft(), value));
+      }else if(currentNode.getKey().compareTo(value) == -1) {
+        currentNode.setRight(removeNode(currentNode.getRight(), value));
+      }else{
+        if(isLeaf(currentNode)){
+          currentNode = null;
+          return currentNode;
+        } else if (hasTwoChild(currentNode)) {
+          T substituteValue = valueSubstitute(currentNode.getLeft());
+          currentNode.setKey(substituteValue);
+          currentNode.setLeft(removeNode(currentNode.getLeft(), substituteValue));
+        } 
+				else if (hasOneChild(currentNode)) {
+          if (currentNode.getLeft() == null) {
+            return currentNode.getRight();
+        	} else if (currentNode.getRight() == null) {
+            return currentNode.getLeft();
+          }
+        }
+      }
+      return currentNode;
+    }
+    	return null;
+	}
+
+  private Node<T> removeNode(Node<T> currentNode, String value) {
+    if (containsKey(currentNode, value)){
       if(currentNode.getKey().compareTo(value) == 1) {
         currentNode.setLeft(removeNode(currentNode.getLeft(), value));
       }else if(currentNode.getKey().compareTo(value) == -1) {

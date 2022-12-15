@@ -1,7 +1,7 @@
 package main.menu;
 import java.util.Scanner;
 
-public class MenuBase{
+abstract public class MenuBase{
   private boolean exit = false;
   protected final static short exitChoice = 0;
   private static Scanner keyBoardInput = new Scanner(System.in);  

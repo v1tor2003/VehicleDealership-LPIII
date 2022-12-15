@@ -1,246 +1,138 @@
 package main.components;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Scanner;
-
-
 
 import ds.tree.Tree;
 import models.people.Customer;
-import services.Data;
 import services.Services;
-public class CustomerRecords{   
-  private static Tree <Customer> records;
-  private static Scanner keyBoardInput = new Scanner(System.in);
 
-  public CustomerRecords(){
-    records = new Tree<>();
-  }
+public class CustomerRecords
+{   
+    private static Tree <Customer> records;
+    private static Scanner keyBoardInput=new Scanner(System.in);
+    private static String userInput;
   
-  public void add(){
-    //Customer customerToAdd= fillCustomerCredentials();
-  int i=0;
-  Customer c1 = new Customer("pedro", "affonso", "3", 10,11,2002,"pasmarques@gmail.com", "7381191894");
-  Customer c2 = new Customer("pedro", "affonso", "0", 10,11,2001,"pasmarques@gmail.com", "7381191894");
-  Customer[] vet= new Customer[2];
-  vet[0]=c1;
-  vet[1]=c2;
-    
+    public CustomerRecords()
+    {
+        records=new Tree<>();
+    }
 
-  while(i<2){
-    if(!records.contaisKey(records.getRoot(),vet[i].getCPF())){
-      records.insertBT(records.getRoot(),vet[i]);
-    }
-    else{
-      System.out.println("You cannot duplicate a Customer, Try again");
-     break;
-    }
-    i++;
-   }
-  }
-  
-  /*
-   * public void add(){
-    Customer customerToAdd= fillCustomerCredentials();
-    if(!records.contains(records.getRoot(),customerToAdd)){
-      if(records.findKey(records.getRoot(),customerToAdd.getAge()))
+    public void add(){
+      Customer customerToAdd=fillCustomer();
+      if(!records.contains(records.getRoot(),customerToAdd)){
         records.insertBT(records.getRoot(),customerToAdd);
+      }
+      else{
+      System.out.println("You cannot duplicate a Customer, Try again");  
+      }
     }
-    else{
-      System.out.println("You cannot duplicate a Customer, Try again");
-    }
-  }
-   */
-  public void remove(Customer customer){
-    if(records.contains(records.getRoot(),customer))
-      records.removeBT(customer);
-    else{
-      System.out.println("There Is No Such Record.");
-    }
-  }
 
-  public Customer fillCustomerCredentials(){
-    String firstName = getStringInput("Enter Customer First Name.");
-    String lastName = getStringInput("Enter Customer Last Name.");
-    String cpfInput = getUserInputCPF();
-    System.out.println("Enter The Date You Was Born dd/mm/yyyy.");
-    String birthDateInput = keyBoardInput.nextLine();
-    String bdAsArray [] = birthDateInput.split("/");
-    Data birthDate = new Data(Integer.parseInt(bdAsArray[0]), Integer.parseInt(bdAsArray[1]), 
-                              Integer.parseInt(bdAsArray[2]));
+    /*
+     *  public void remove()
+    {
+      do{
+        System.out.println("Do you want cancel the registered? yes/not");
+        userInput= keyBoardInput.nextLine();
+        userInput.toLowerCase();
+      }while((userInput!="yes")||(userInput!="not"));
+      
+        if(userInput=="yes"){
+          System.out.println("Type your name: ");
+          userInput=keyBoardInput.nextLine();
+          if(records.containsKey(records.getRoot(),userInput)){
+            Node<Customer> referenceToRemove= new Node<T>(userInput);
+
+          }
+         
+            records.removeBT(userInput);
+          else
+          {
+            System.out.println("There is no such record.");
+          }
+        }
+       
+    }
+     */
    
-    String emailInput = getUserInputEmail("Enter Customer Email.");
-    String phoneInput= getUserInputPhone("Enter Customer Phone.");
-    return new Customer(firstName, lastName, cpfInput, birthDate.getDia(), birthDate.getMes(), birthDate.getAno(), emailInput, phoneInput);
+  public void showCustomers()
+  {
+    if(records.size(records.getRoot())==0){
+      System.out.println("There is no such record yet, tree is empty");
+    }
+    else{
+      records.printTree(records.getRoot());
+    }
   }
 
-  private String getUserInputEmail(String label){
-    String input = "";
-    boolean exit = false;
+   public Customer fillCustomer(){
 
-    System.out.println(label);
-    do{
-      if(keyBoardInput.hasNextLine()){
-        input = keyBoardInput.nextLine();
-
-        if(Services.validateEmail(input)) exit = true;
-      }else{
-        System.out.println("Invalid Input, Try Again.");
-        exit = false;
-        keyBoardInput.next();
-      }
-    }while(!exit);
-
-    return input;
-  }
-
-  private String getUserInputPhone(String label){
-    String input = "";
-    boolean exit = false;
-
-    System.out.println(label);
-    do{
-      if(keyBoardInput.hasNextLine()){
-        input = keyBoardInput.nextLine();
-
-        if(Services.validatePhoneNumber(input)) exit = true;
-      }else{
-        System.out.println("Invalid Input, Try Again.");
-        exit = false;
-        keyBoardInput.next();
-      }
-    }while(!exit);
-
-    return input;
-  }
-
-
-  private String getStringInput(String label){
-    String input = "";
-    boolean exit = false;
-
-    System.out.println(label);
-    do{
-      if(keyBoardInput.hasNextLine()){
-        input = keyBoardInput.nextLine();
-
-        if(Services.validateRandName(input)) exit = true;
-      }else{
-        System.out.println("Invalid Input, Try Again.");
-        exit = false;
-        keyBoardInput.next();
-      }
-    }while(!exit);
-
-    return input;
-  }
-
-  private String getUserInputCPF(){
-    String input = "";
-    boolean exit = false;
-
-    System.out.println("Please Enter Required Information.");
-    do{
-      if(keyBoardInput.hasNextLine()){
-        input = keyBoardInput.nextLine();
-
-        if(Services.validateRandName(input)) exit = true;
-      }else{
-        System.out.println("Invalid Input, Try Again.");
-        exit = false;
-        keyBoardInput.next();
-      }
-    }while(!exit);
-
-    return input;
-  }
-
-
-  public void showCustomers(){
-    records.printTree(records.getRoot());
-  }
-
- /*
-  *  public Customer fillCustomer(){
-    String name;
-    String cpfInput;
-    Data bornDate;
+    String name[]=new String[2];
+    String cpfAndPhone[]=new String[2];
+    int bornDate[]=new int[3];
     String emailInput;
-    String phoneInput;
+
     name=fillUserNameInput();
-    cpfInput=validateCpfandPhoneNumberInput()[0];
-    bornDate=validateDate();
+    cpfAndPhone=fillCpfandPhoneNumberInput();
+    bornDate=arrayBornDate();
+    emailInput=fillEmailInput();
   
-    //return new Customer(firstName, lastName, cpfInput, dayInput, monthInput, yearInput, emailInput, phoneInput);
+    return new Customer(name[0], name[1], cpfAndPhone[0], bornDate[0], bornDate[1], bornDate[2],  emailInput, cpfAndPhone[1]);
   }
-  */
-   /*
-  private String fillUserNameInput(){
 
+  private String[] fillUserNameInput(){
+    final String firstAndLastName[] = new String[2];
     System.out.println("Type your name in format: FirstName + LastName");
-
     userInput= keyBoardInput.nextLine();
-
     String firstName = userInput.substring(0, userInput.indexOf(" "));
     String lastName= userInput.substring(userInput.indexOf(" ") + 1);
-
-    if(Services.validateRandName(firstName)&&Services.validateRandName(lastName)){
-    return firstName+lastName;
+    if(!Services.validateRandName(firstName)||!Services.validateRandName(lastName)){
+      System.out.println("Type a valid name");
     }
-    return null;
+    firstAndLastName[0]=firstName;
+    firstAndLastName[1]=lastName;
+    return firstAndLastName;
   }
-
   private String[] fillCpfandPhoneNumberInput(){
     final String arrayCpfAndNumber[] = new String[2];
-
     System.out.println("Type your cpf: ");
     userInput=keyBoardInput.nextLine();
-
     while(Services.validateCPF(userInput)){
       System.out.println("Invalid cpf, try again typing in format ###.###.###.##, without dots");
       System.out.println("Type your cpf again: ");
-      //keyBoardInput.close();
+      //keyboardInput.close();
       userInput=keyBoardInput.nextLine();
     }
     arrayCpfAndNumber[0]=userInput;
-
     System.out.println("Type your phone number: ");
     userInput=keyBoardInput.nextLine();
-
     while(Services.validatePhoneNumber(userInput)){
     System.out.println("Invalid phone number, try again typing in format ##-#######, without -");
     System.out.println("Type your phone number again: ");
-    //keyBoardInput.close();
+    //keyboardInput.close();
     userInput=keyBoardInput.nextLine();
     }
     arrayCpfAndNumber[1]=userInput;
     return arrayCpfAndNumber;
   }
-  public void showCustomers(){
-    records.printTree(records.getRoot());
-  }
-
+ 
   private int[] arrayBornDate(){
     final int bornDateArray[]=new int[3];
-
     System.out.println("Type your born date in format DD/MM/YYYY: ");
+    
     userInput=keyBoardInput.nextLine();
     bornDateArray[0]= Integer.parseInt(userInput.substring(0, 2));
     bornDateArray[1]= Integer.parseInt(userInput.substring(3, 5));
     bornDateArray[2]= Integer.parseInt(userInput.substring(6, 10));
     return bornDateArray;
-  }
-
-  private Data fillDateInput()
-  {
-    Data bornDate = new Data(arrayBornDate()[0],arrayBornDate()[1],arrayBornDate()[2]);
-    return bornDate;
+  
   }
 
   private String fillEmailInput(){
-
     System.out.println("Type your email: ");
     userInput=keyBoardInput.nextLine();
-
     while(!Services.validateEmail(userInput)){
       System.out.println("Invalid email, type again:");
       userInput=keyBoardInput.nextLine();
@@ -248,14 +140,3 @@ public class CustomerRecords{
     return userInput;
   }
 }
-/*if(Services.validateRandName(fillUserNameInput())){
-  name = fillUserNameInput();
-}
-
-cpfInput=fillCpfandPhoneNumberInput()[0];
-phoneInput=fillCpfandPhoneNumberInput()[1];
- * 
- */
-
-}
-
